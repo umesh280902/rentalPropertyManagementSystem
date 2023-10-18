@@ -1,9 +1,10 @@
 const bcrypt = require('bcryptjs');
 const express = require('express');
-const router = express.Router(); // Create an express router without specifying a base URL
-const { User } = require('./database');
+const Router = express.Router(); // Create an express Router without specifying a base URL
+const { User,Message } = require('./database');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const Property = require('./propertySchema');
 
 let mailTransporter = nodemailer.createTransport({
   service: 'gmail',
@@ -39,14 +40,93 @@ async function authenticate(req, res, next) {
   }
 }
 
-router.get('/user/signup', (req, res) => {
+Router.get('/user/getUser', async (req, res) => {
+  try {
+    const searchQuery = req.query.search;
+
+    if (!searchQuery) {
+      // If no search query provided, render the search page with no results
+      return res.render('searchUser', { UserDetails: [] });
+    }
+
+    const details = searchQuery.split(' ');
+    const detailsfirstName = details[0];
+    console.log(detailsfirstName);
+
+    const UserDetails = await User.find(
+      { firstname: detailsfirstName },
+      { password: 0 } // Exclude the 'password' field
+    );
+
+    console.log(UserDetails);
+
+    res.render('searchUser', { UserDetails });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
+Router.get('/user/chat/:id', authenticate, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const receiverDetails = await User.findOne({ _id: id }, { password: 0 });
+    const email = req.email;
+    const senderDetails = await User.findOne({ email: email });
+    
+    // Find the existing message document for these members
+    const existingMessage = await Message.findOne({
+      $and: [
+        { members: receiverDetails._id },
+        { members: senderDetails._id },
+      ],
+    });
+
+    if (!existingMessage) {
+      // If no existing message document is found, create a new one
+      const newMessage = new Message({
+        members: [receiverDetails._id, senderDetails._id],
+        messages: [],
+      });
+
+      await newMessage.save(); // Save the new message document
+    }
+
+    // Retrieve the messages from the message document (whether existing or newly created)
+    const messages = await Message.find({
+      $and: [
+        { members: receiverDetails._id },
+        { members: senderDetails._id },
+      ],
+    }).lean();
+
+    const receiverName = receiverDetails.firstname + " " + receiverDetails.lastname;
+    const senderName = senderDetails.firstname + " " + senderDetails.lastname;
+
+    const sendMessage = {
+      senderId: senderDetails._id,
+      senderName: senderName,
+      receiverId: receiverDetails._id,
+      receiverName: receiverName,
+      messages: messages[0].messages ? messages[0].messages : [],
+    };
+
+    res.render('message', sendMessage);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+
+Router.get('/user/signup', (req, res) => {
   res.render('signup');
 });
 
 var details;
 var otp;
 
-router.post('/user/signup', async (req, res) => {
+Router.post('/user/signup', async (req, res) => {
   const { firstname, lastname, email, password, phonenumber } = req.body;
   details = req.body;
   console.log(details);
@@ -54,8 +134,8 @@ router.post('/user/signup', async (req, res) => {
     res.send('Please fill out all the details.');
   } else {
     try {
-      const existingUser = await User.findOne({ email: email });
-
+      const existingUser = await User.findOne({ email: email,phonenumber:phonenumber });
+      
       if (existingUser) {
         res.send('User already exists.');
       } else {
@@ -84,11 +164,11 @@ router.post('/user/signup', async (req, res) => {
   }
 });
 
-router.get('/user/login', (req, res) => {
+Router.get('/user/login', (req, res) => {
   res.render('login');
 });
 
-router.post('/user/login', async (req, res) => {
+Router.post('/user/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     res.send('Please fill out all the details.');
@@ -117,11 +197,11 @@ router.post('/user/login', async (req, res) => {
   }
 });
 
-router.get('/user/otp', (req, res) => {
+Router.get('/user/otp', (req, res) => {
   res.render('otp');
 });
 
-router.post('/user/otp', async (req, res) => {
+Router.post('/user/otp', async (req, res) => {
   const { email_otp } = req.body;
   console.log('Entered OTP:', email_otp);
   try {
@@ -149,4 +229,20 @@ router.post('/user/otp', async (req, res) => {
   }
 });
 
-module.exports = router;
+Router.get('/user/profile',authenticate,async (req,res)=>{
+  const email=req.email
+  console.log(email)
+  try{
+    const details=await User.findOne({email:email})
+    const Properties=await Property.find({contactNo:details.phonenumber})
+    console.log(Properties)
+    res.render('UserProfile',{
+      details,Properties
+    })
+  }catch(err){
+    console.log(err)
+  }
+})
+
+module.exports = {authenticate,Router}
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="display: flex;">
+        <%= details.firstname %>
+    </div>
+    <div>
+        <%= details.lastname %>
+        </div>
+    <div><%= details.phonenumber %>
+        </div>
+    <div><%= details.email %></div>
+    <div>
+        <% for(let j=0;j<Properties.length;j++){ %>
+        <div>
+            <% for(let i=0;i<Properties[j].images.length;i++){ %>
+                <!-- <div><%=Properties[j].images[i].name%></div> -->
+                <div><img src="data:<%= Properties[j].images.contentType %>;base64, <%= Properties[j].images[i].data.toString('base64') %>" alt="" style="height: 20%;width: 20%;"></div>
+                <% } %>
+        </div>
+        <div><%=Properties[j].propertyType%></div>
+        <div><%=Properties[j].buildingName%></div>
+        <div><%=Properties[j].facing%></div>
+        <div><%=Properties[j].contactNo%></div>
+        <div><%=Properties[j].squareFeet%></div>
+        <div><%=Properties[j].securityDeposit%></div>
+        <div><%=Properties[j].furnishing%></div>
+        <div><%=Properties[j].flooring%></div>
+        <div><%=Properties[j].ageOfConstruction%></div>
+        <div><%=Properties[j].waterAvailability%></div>
+        <div><%=Properties[j].numberOfLifts%></div>
+        <div><%=Properties[j].electricityStatus%></div>
+        <% } %>
+    </div>
+</body>
+</html>
