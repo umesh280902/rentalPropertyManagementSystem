@@ -1,19 +1,10 @@
 const mongoose = require('mongoose');
-
 const propertySchema = new mongoose.Schema({
     images: [
         {
-            name: {
+            fileName: {
                 type: String,
                 required: true,
-            },
-            data: {
-                type: Buffer,
-                required: true,
-            },
-            contentType: {
-                required: true,
-                type: String,
             },
         },
     ],
@@ -69,7 +60,54 @@ const propertySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // Add more fields as needed
+    address: {
+        street: {
+            type: String,
+        },
+        area: {
+            type: String,
+        },
+        city: {
+            type: String,
+        },
+        state: {
+            type: String,
+        },
+        postalCode: {
+            type: String,
+        },
+        country: {
+            type: String,
+        },
+    },
+    likes:[
+        {
+        name:{
+            required:true,
+            type:String
+        }
+        }
+    ],
+    comments:[
+        {
+            name:{
+                required:true,
+                type:String
+            },
+            comment:[{
+                required:true,
+                type:String
+         }]
+        }
+    ],
+    views:[
+        {
+            token:{
+                type:String,
+                required:true
+            }
+        }
+    ]
 });
 
 const Property = mongoose.model('Property', propertySchema);

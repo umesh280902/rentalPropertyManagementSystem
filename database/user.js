@@ -6,6 +6,13 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const Property = require('./propertySchema');
 
+function formatTime(timestamp) {
+  const date = new Date(timestamp);
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
 let mailTransporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -99,23 +106,36 @@ Router.get('/user/chat/:id', authenticate, async (req, res) => {
         { members: senderDetails._id },
       ],
     }).lean();
-
+    console.log(messages[0].messages)
     const receiverName = receiverDetails.firstname + " " + receiverDetails.lastname;
     const senderName = senderDetails.firstname + " " + senderDetails.lastname;
+    
+    // Modify the messages to include author names
+    const modifiedMessages = messages[0].messages.map(msg => {
+      const date=msg.time.toString().substring(0,16)
+      console.log(date)
+      const time=formatTime(msg.time)
+      if (msg.author.toString() === senderDetails._id.toString()) {
+        return { ...msg, author: senderName,time,date };
+      } else {
+        return { ...msg, author: receiverName,time,date };
+      }
+    });
 
     const sendMessage = {
       senderId: senderDetails._id,
       senderName: senderName,
       receiverId: receiverDetails._id,
       receiverName: receiverName,
-      messages: messages[0].messages ? messages[0].messages : [],
+      messages: modifiedMessages ? modifiedMessages : [],
     };
-
+    console.log(sendMessage)
     res.render('message', sendMessage);
   } catch (error) {
     console.log(error);
   }
 });
+
 
 
 
@@ -235,7 +255,6 @@ Router.get('/user/profile',authenticate,async (req,res)=>{
   try{
     const details=await User.findOne({email:email})
     const Properties=await Property.find({contactNo:details.phonenumber})
-    console.log(Properties)
     res.render('UserProfile',{
       details,Properties
     })

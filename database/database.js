@@ -7,6 +7,7 @@ mongoose.connect('mongodb://0.0.0.0:27017/rentalPropertyManagementSystem', {
   useUnifiedTopology: true,
 });
 
+
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -50,6 +51,7 @@ const messageSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
+    authorName: String, // New field to store the author's name
     body: {
       type: String,
       required: true,
@@ -65,6 +67,7 @@ const messageSchema = new mongoose.Schema({
     { messages: 1 },
   ],
 });
+
 
 
 const Message = mongoose.model('Message', messageSchema);
