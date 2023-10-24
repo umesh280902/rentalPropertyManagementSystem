@@ -60,6 +60,24 @@ const propertySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    landmark:{
+        type:String
+    },
+    noOfBedroom:{
+        type:String,
+        required:true,
+    },
+    noOfBathroom:{
+        type:String,
+        required:true,
+    },
+    rentalValue:{
+        type:String,
+        required:true
+    },
+    description:{
+        type:String,
+    },
     address: {
         street: {
             type: String,
@@ -94,10 +112,10 @@ const propertySchema = new mongoose.Schema({
                 required:true,
                 type:String
             },
-            comment:[{
+            comment:{
                 required:true,
                 type:String
-         }]
+            }
         }
     ],
     views:[

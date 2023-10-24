@@ -155,7 +155,7 @@ Router.post('/user/signup', async (req, res) => {
   } else {
     try {
       const existingUser = await User.findOne({ email: email,phonenumber:phonenumber });
-      
+      console.log(existingUser)
       if (existingUser) {
         res.send('User already exists.');
       } else {
@@ -173,7 +173,7 @@ Router.post('/user/signup', async (req, res) => {
             res.send('Error sending OTP.');
           } else {
             console.log('Email sent successfully with the OTP as ', otp);
-            res.redirect('/user/otp');
+            res.send(`Email sent successfully with the OTP as ${otp}`);
           }
         });
       }
@@ -190,6 +190,7 @@ Router.get('/user/login', (req, res) => {
 
 Router.post('/user/login', async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body)
   if (!email || !password) {
     res.send('Please fill out all the details.');
   } else {
@@ -205,7 +206,7 @@ Router.post('/user/login', async (req, res) => {
           const token = jwt.sign({ email: existingUser.email }, 'rentalpropertymanagement');
           console.log(token);
           res.cookie('token', token, { httpOnly: true, expires: new Date(Date.now() + 60 * 50000) });
-          res.redirect('/');
+          res.send('authenticated')
         } else {
           res.send('Incorrect password.');
         }
@@ -238,7 +239,7 @@ Router.post('/user/otp', async (req, res) => {
       const token = jwt.sign({ email: details.email }, 'rentalpropertymanagement');
       console.log(token);
       res.cookie('token', token, { httpOnly: true, expires: new Date(Date.now() + 60 * 50000) });
-      res.redirect('/');
+      res.send('authenticated')
     } else {
       console.log('OTP Verification Failed');
       return res.status(500).json({ message: 'OTP verification failed.' });

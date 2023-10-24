@@ -1,16 +1,16 @@
 const express = require('express');
 const Router = express.Router();
 const multer = require('multer');
-const {authenticate} = require('./user');
+const { authenticate } = require('./user');
 const Property = require('./propertySchema');
-const jwt=require('jsonwebtoken')
-const {v4:uuidv4}=require('uuid');
+const jwt = require('jsonwebtoken');
+const { v4: uuidv4 } = require('uuid');
 const { User } = require('./database');
+
+const propertySecretKey = 'propertyFilesNotToBeShared';
+
 // Define a storage strategy for multer to handle file uploads
-
-const propertySecretKey='propertyFilesNotToBeShared'
-
-const Storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public'); // Destination folder
     },
@@ -20,13 +20,12 @@ const Storage = multer.diskStorage({
     },
 });
 
-const upload=multer({storage:Storage})
+const upload = multer({ storage });
 
 Router.get('/user/property', authenticate, (req, res) => {
     res.render('uploadRentDetails');
 });
 
-// Use upload.array to allow multiple image uploads with the same field name 'images'
 Router.post('/user/property', authenticate, upload.array('images'), async (req, res) => {
     try {
         const {
@@ -42,50 +41,59 @@ Router.post('/user/property', authenticate, upload.array('images'), async (req, 
             waterAvailability,
             numberOfLifts,
             electricityStatus,
-            'address.street': street,
-            'address.area': area,
-            'address.city': city,
-            'address.state': state,
-            'address.postalCode': postalCode,
-            'address.country': country
+            landmark,
+            noOfBedroom,
+            noOfBathroom,
+            rentalValue,
+            description,
+            street,
+            area,
+            city,
+            state,
+            postalCode,
+            country
         } = req.body;
 
-        console.log(req.files);
-        console.log(req.body);
-        
         const images = req.files.map(file => ({
             fileName: file.path, // Store the filename in the database
         }));
-        
-        console.log(images);
-        console.log(req.body);
 
-        if (images.length === 0 || !buildingName || !propertyType || !facing || !contactNo || !squareFeet || !securityDeposit || !furnishing || !flooring || !ageOfConstruction || !waterAvailability || !numberOfLifts || !electricityStatus) {
-            return res.send("Please fill out all the details.");
+        if (images.length === 0 || !buildingName || !propertyType || !facing || !contactNo || !squareFeet || !securityDeposit || !furnishing || !flooring || !ageOfConstruction || !waterAvailability || !numberOfLifts || !electricityStatus||!landmark||
+            !noOfBedroom||
+            !noOfBathroom||
+            !rentalValue||
+            !description
+            ) {
+            return res.send('Please fill out all the details.');
         }
 
         const propertyDetails = new Property({
-            images: images,
-            propertyType: propertyType,
-            buildingName: buildingName,
-            facing: facing,
-            contactNo: contactNo,
-            squareFeet: squareFeet,
-            securityDeposit: securityDeposit,
-            furnishing: furnishing,
-            flooring: flooring,
-            ageOfConstruction: ageOfConstruction,
-            waterAvailability: waterAvailability,
-            numberOfLifts: numberOfLifts,
-            electricityStatus: electricityStatus,
+            images,
+            propertyType,
+            buildingName,
+            facing,
+            contactNo,
+            squareFeet,
+            securityDeposit,
+            furnishing,
+            flooring,
+            ageOfConstruction,
+            waterAvailability,
+            numberOfLifts,
+            landmark,
+            noOfBedroom,
+            noOfBathroom,
+            rentalValue,
+            description,
+            electricityStatus,
             address: {
-                street: street,
-                area: area,
-                city: city,
-                state: state,
-                postalCode: postalCode,
-                country: country
-            }
+                street,
+                area,
+                city,
+                state,
+                postalCode,
+                country
+            },
         });
 
         const saveData = await propertyDetails.save();
@@ -93,26 +101,43 @@ Router.post('/user/property', authenticate, upload.array('images'), async (req, 
         res.redirect('/user/profile');
     } catch (err) {
         console.error(err);
-        res.status(500).send("Internal Server Error");
+        res.status(500).send('Internal Server Error');
     }
 });
 
-Router.get('/property',async (req,res)=>{
+Router.get('/property', async (req, res) => {
     try {
-        const Properties=await Property.find({})
-        console.log(Properties[0].images)
-        res.render('property',{
-            Properties
-        }) 
+        const Properties = await Property.find({});
+
+        // Map through the properties and create a combined address
+        const updatedProperties = Properties.map((property) => {
+            const combinedAddress = `${property.address.area} ${property.address.street} ${property.address.city} ${property.address.state} ${property.address.postalCode} ${property.address.country}`;
+            const imagePath='http://localhost:8800/'
+            // Remove the 'public' directory from each image's fileName
+            const removedPath=property.images[0].fileName.replace('public\\','')
+            const updatedImages =imagePath+removedPath 
+
+            return {
+                ...property.toObject(),
+                address: combinedAddress,
+                images: updatedImages,
+            };
+        });
+
+        console.log(updatedProperties);
+        res.send([updatedProperties]);
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-})
+});
+
+
+
 Router.get('/property/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const property = await Property.findOne({ _id: id });
-        //console.log(property)
+        console.log(property)
         //console.log(property.images)
         if (!property) {
             return res.status(404).send('Property not found');
@@ -130,7 +155,7 @@ Router.get('/property/:id', async (req, res) => {
             res.cookie('propertyViewsToken', token, { httpOnly: true, expires: new Date(Date.now() + 24 * 60 * 60 * 1000) });
         }
 
-        res.render('singleProperty',{property} );
+        res.render(property);
     } catch (error) {
         console.log(error);
         // Handle other errors as needed.
@@ -211,6 +236,4 @@ Router.post('/property/:id/like', authenticate, async (req, res) => {
 });
 
 
-
-
-module.exports = Router;
+module.exports=Router
