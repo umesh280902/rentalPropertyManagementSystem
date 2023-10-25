@@ -47,7 +47,7 @@ async function authenticate(req, res, next) {
   }
 }
 
-Router.get('/user/getUser', async (req, res) => {
+Router.get('/api/user/getUser', async (req, res) => {
   try {
     const searchQuery = req.query.search;
 
@@ -74,7 +74,7 @@ Router.get('/user/getUser', async (req, res) => {
   }
 });
 
-Router.get('/user/chat/:id', authenticate, async (req, res) => {
+Router.get('/api/user/chat/:id', authenticate, async (req, res) => {
   try {
     const id = req.params.id;
     const receiverDetails = await User.findOne({ _id: id }, { password: 0 });
@@ -139,14 +139,14 @@ Router.get('/user/chat/:id', authenticate, async (req, res) => {
 
 
 
-Router.get('/user/signup', (req, res) => {
+Router.get('/api/user/signup', (req, res) => {
   res.render('signup');
 });
 
 var details;
 var otp;
 
-Router.post('/user/signup', async (req, res) => {
+Router.post('/api/user/signup', async (req, res) => {
   const { firstname, lastname, email, password, phonenumber } = req.body;
   details = req.body;
   console.log(details);
@@ -188,7 +188,7 @@ Router.get('/user/login', (req, res) => {
   res.render('login');
 });
 
-Router.post('/user/login', async (req, res) => {
+Router.post('/api/user/login', async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body)
   if (!email || !password) {
@@ -218,11 +218,11 @@ Router.post('/user/login', async (req, res) => {
   }
 });
 
-Router.get('/user/otp', (req, res) => {
+Router.get('/api/user/otp', (req, res) => {
   res.render('otp');
 });
 
-Router.post('/user/otp', async (req, res) => {
+Router.post('/api/user/otp', async (req, res) => {
   const { email_otp } = req.body;
   console.log('Entered OTP:', email_otp);
   try {
@@ -250,7 +250,7 @@ Router.post('/user/otp', async (req, res) => {
   }
 });
 
-Router.get('/user/profile',authenticate,async (req,res)=>{
+Router.get('/api/user/profile',authenticate,async (req,res)=>{
   const email=req.email
   console.log(email)
   try{

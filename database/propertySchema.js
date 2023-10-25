@@ -71,12 +71,27 @@ const propertySchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    floor:{
+        type:String
+    },
     rentalValue:{
         type:String,
         required:true
     },
     description:{
         type:String,
+    },
+    availableFor:{
+        type:String,
+        required:true,
+        enum:['married','student','man','woman','bachelor','family','couple']
+    },
+    availableFrom:{
+        type:String,
+        required:true
+    },
+    noOfBalconies:{
+        type:String
     },
     address: {
         street: {

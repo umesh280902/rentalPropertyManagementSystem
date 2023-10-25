@@ -22,21 +22,30 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-Router.get('/user/property', authenticate, (req, res) => {
+Router.get('/api/user/property', authenticate, (req, res) => {
     res.render('uploadRentDetails');
 });
 
-Router.post('/user/property', authenticate, upload.array('images'), async (req, res) => {
+Router.post('/api/user/property', authenticate, upload.array('images'), async (req, res) => {
     try {
+        const email = req.email;
+        const findUser = await User.find({ email: email });
+
+        if (findUser.length === 0) {
+            return res.status(400).send('User not found');
+        }
+
+        const contactNo = findUser[0].phonenumber;
+
         const {
             propertyType,
             buildingName,
             facing,
-            contactNo,
             squareFeet,
             securityDeposit,
             furnishing,
             flooring,
+            floor,
             ageOfConstruction,
             waterAvailability,
             numberOfLifts,
@@ -46,25 +55,52 @@ Router.post('/user/property', authenticate, upload.array('images'), async (req, 
             noOfBathroom,
             rentalValue,
             description,
-            street,
-            area,
-            city,
-            state,
-            postalCode,
-            country
+            availableFor,
+            availableFrom,
+            noOfBalconies,
         } = req.body;
 
         const images = req.files.map(file => ({
-            fileName: file.path, // Store the filename in the database
+            fileName: file.path,
         }));
 
-        if (images.length === 0 || !buildingName || !propertyType || !facing || !contactNo || !squareFeet || !securityDeposit || !furnishing || !flooring || !ageOfConstruction || !waterAvailability || !numberOfLifts || !electricityStatus||!landmark||
-            !noOfBedroom||
-            !noOfBathroom||
-            !rentalValue||
-            !description
-            ) {
-            return res.send('Please fill out all the details.');
+        const address = {
+            street: req.body['address.street'],
+            area: req.body['address.area'],
+            city: req.body['address.city'],
+            state: req.body['address.state'],
+            postalCode: req.body['address.postalCode'],
+            country: req.body['address.country'],
+        };
+
+        // Check for missing or empty fields
+        if (!propertyType ||
+            !buildingName ||
+            !facing ||
+            !squareFeet ||
+            !securityDeposit ||
+            !furnishing ||
+            !flooring ||
+            !ageOfConstruction ||
+            !waterAvailability ||
+            !numberOfLifts ||
+            !electricityStatus ||
+            !landmark ||
+            !noOfBedroom ||
+            !noOfBathroom ||
+            !rentalValue ||
+            !description ||
+            !availableFor ||
+            !availableFrom ||
+            !noOfBalconies ||
+            !floor||
+            !address.street ||
+            !address.area ||
+            !address.city ||
+            !address.state ||
+            !address.postalCode ||
+            !address.country) {
+            return res.status(400).send('Please fill out all the details.');
         }
 
         const propertyDetails = new Property({
@@ -76,24 +112,21 @@ Router.post('/user/property', authenticate, upload.array('images'), async (req, 
             squareFeet,
             securityDeposit,
             furnishing,
+            floor,
             flooring,
             ageOfConstruction,
             waterAvailability,
             numberOfLifts,
             landmark,
             noOfBedroom,
+            availableFor,
+            availableFrom,
+            noOfBalconies,
             noOfBathroom,
             rentalValue,
             description,
             electricityStatus,
-            address: {
-                street,
-                area,
-                city,
-                state,
-                postalCode,
-                country
-            },
+            address,
         });
 
         const saveData = await propertyDetails.save();
@@ -105,7 +138,8 @@ Router.post('/user/property', authenticate, upload.array('images'), async (req, 
     }
 });
 
-Router.get('/property', async (req, res) => {
+
+Router.get('/api/property', async (req, res) => {
     try {
         const Properties = await Property.find({});
 
@@ -133,12 +167,11 @@ Router.get('/property', async (req, res) => {
 
 
 
-Router.get('/property/:id', async (req, res) => {
+Router.get('/api/property/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const property = await Property.findOne({ _id: id });
         console.log(property)
-        //console.log(property.images)
         if (!property) {
             return res.status(404).send('Property not found');
         }
@@ -155,7 +188,7 @@ Router.get('/property/:id', async (req, res) => {
             res.cookie('propertyViewsToken', token, { httpOnly: true, expires: new Date(Date.now() + 24 * 60 * 60 * 1000) });
         }
 
-        res.render(property);
+        res.send(property);
     } catch (error) {
         console.log(error);
         // Handle other errors as needed.
@@ -163,7 +196,7 @@ Router.get('/property/:id', async (req, res) => {
 });
 
 
-Router.post('/property/:id', authenticate, async (req, res) => {
+Router.post('/api/property/:id', authenticate, async (req, res) => {
     try {
         const details = req.body;
         const email = req.email;
@@ -206,7 +239,7 @@ Router.post('/property/:id', authenticate, async (req, res) => {
 });
 
 // Add this route to your Express application
-Router.post('/property/:id/like', authenticate, async (req, res) => {
+Router.post('/api/property/:id/like', authenticate, async (req, res) => {
     try {
         const propertyId = req.params.id;
         const property = await Property.findById(propertyId);

@@ -14,9 +14,10 @@ function Login() {
         setPassword(event.target.value);
     };
 
-    const handleFormSubmit = async(event) => {
-        try{event.preventDefault();
-            const response=await axios.post('http://localhost:8800/user/login',{
+    const handleFormSubmit = async (event)=> {
+        event.preventDefault()
+        try{
+            const response=await axios.post('/api/user/login',{
                 email,password
             })
             console.log(response)

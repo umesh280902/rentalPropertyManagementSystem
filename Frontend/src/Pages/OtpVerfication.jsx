@@ -12,10 +12,10 @@ function OTPVerification() {
     };
 
     const handleOtpSubmit = async (event) => {
+        event.preventDefault();
         try {
-            event.preventDefault();
             // Send the entered OTP to the server for verification
-            const response = await axios.post('http://localhost:8800/user/otp', {
+            const response = await axios.post('/api/user/otp', {
                 email_otp: otp,
             });
             if (response.data === 'authenticated') {

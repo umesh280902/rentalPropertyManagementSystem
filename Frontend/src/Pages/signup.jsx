@@ -26,7 +26,7 @@ function Signup() {
         event.preventDefault();
         try {
             // Make sure to send the complete formData object to the server
-            const response = await axios.post('http://localhost:8800/user/signup', formData);
+            const response = await axios.post('/api/user/signup', formData);
             console.log(response.data)
             if (response.data==="User already exists.") {
                 // Redirect to the login page after successful registration

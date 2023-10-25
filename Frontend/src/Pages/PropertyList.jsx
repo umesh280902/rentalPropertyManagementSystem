@@ -86,7 +86,7 @@ const PropertyList = () => {
   // AOS.init();
   useEffect(()=>{
     const propertyDetails=async ()=>{
-      const response=await axios.get('http://localhost:8800/property')
+      const response=await axios.get('/api/property')
       console.log(response.data)
       setDetails(response.data[0])
     }

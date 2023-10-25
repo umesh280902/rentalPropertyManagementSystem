@@ -22,16 +22,19 @@ function PropertyDetails() {
   const [InputDate, setInputDate] = useState(null);
   const [Submit, setSubmit] = useState(false);
   const [EventDetails, setEventDetails] = useState([]);
-    
+  const [isLoading,setIsLoading]=useState(true)
   useEffect(()=>{
     const property=async ()=>{  
       try {
         const id=window.location.href.split('/')
         console.log(id)
-        const response=await axios.get(`http://localhost:8800/property/${id[4]}`)
+        const response=await axios.get(`/api/property/${id[4]}`)
+        setPropertyDetail(response.data)
         console.log(response.data)
+        setIsLoading(false)
         } catch (error) {
         console.log(error)
+        setIsLoading(false)
       }
     }
     property()
@@ -84,6 +87,11 @@ function PropertyDetails() {
       comments: 0,
     },
   ];
+
+  if(isLoading){
+    return <div>Loading</div>
+  }
+
   return (
     <div>
       {InputTime == null ? <div></div> : <div>{InputTime}</div>}
@@ -99,20 +107,20 @@ function PropertyDetails() {
       >
         <div style={{ display: "flex", flexDirection: "row", gap: "0.25rem" }}>
           <span>Rs</span>
-          <div style={{ fontWeight: "900", fontSize: "1.5rem" }}>50000</div>
+          <div style={{ fontWeight: "900", fontSize: "1.5rem" }}>{propertyDetail.rentalValue}</div>
           <div>Per month</div>
         </div>
         <div>
-          <div style={{ fontWeight: "500", fontSize: "1.5rem" }}>1 BHK</div>
+          <div style={{ fontWeight: "500", fontSize: "1.5rem" }}>{propertyDetail.noOfBedroom} BHK</div>
           <br />
           Flat/Apartment for Rent
           <br />
           in{"   "}
-          {PropDet[0].buildingName} {"   "}
-          {PropDet[0].street} {"   "}
-          {PropDet[0].area} {"   "}
-          {PropDet[0].city} {"   "}
-          {PropDet[0].state}
+          {propertyDetail.buildingName} {"   "}
+          {propertyDetail.address.street} {"   "}
+          {propertyDetail.address.area} {"   "}
+          {propertyDetail.address.city} {"   "}
+          {propertyDetail.address.state}
         </div>
         <div className="List of Buttons">
           <div style={{ maxWidth: "100%", paddingLeft: "25rem" }}>
@@ -156,7 +164,7 @@ function PropertyDetails() {
             
             <p>
               Security deposit <br />
-              {PropDet[0].securityDeposit}
+              {propertyDetail.securityDeposit}
             </p>
             <p>
               Rent
@@ -167,25 +175,25 @@ function PropertyDetails() {
             <p>
               Furnishing
               <br />
-              {PropDet[0].furnishing}
+              {propertyDetail.furnishing}
             </p>
           </div>
           <div>
             
             <p>
               Square Feet <br />
-              {PropDet[0].squareFeet}
+              {propertyDetail.squareFeet}
             </p>
             <p>
               Available for
               <br />
-              All
+              {propertyDetail.availableFor}
               {/* {PropDet[0].securityDeposit} */}
             </p>
             <p>
               Available from
               <br />
-              Date selected
+              {propertyDetail.availableFrom}
               {/* {PropDet[0].securityDeposit} */}
             </p>
           </div>
@@ -204,25 +212,25 @@ function PropertyDetails() {
           <div>
             <p>
               Flooring: {"   "}
-              {PropDet[0].flooring}
+              {propertyDetail.flooring}
             </p>
             <p>
               Electricity Status: {"   "}
-              {PropDet[0].electricityStatus}
+              {propertyDetail.electricityStatus}
             </p>
           </div>
           <div>
             <p>
               Age of Construction: {"   "}
-              {PropDet[0].ageOfConstruction}
+              {propertyDetail.ageOfConstruction}
             </p>
             <p>
               Water Availability: {"   "}
-              {PropDet[0].waterAvailability}
+              {propertyDetail.waterAvailability}
             </p>
             <p>
               No of Lifts: {"   "}
-              {PropDet[0].numberOfLifts}
+              {propertyDetail.numberOfLifts}
             </p>
           </div>
         </div>
