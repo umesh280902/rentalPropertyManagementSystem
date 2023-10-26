@@ -184,7 +184,7 @@ Router.post('/api/user/signup', async (req, res) => {
   }
 });
 
-Router.get('/user/login', (req, res) => {
+Router.get('/api/user/login', (req, res) => {
   res.render('login');
 });
 

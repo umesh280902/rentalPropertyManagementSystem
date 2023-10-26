@@ -6,7 +6,7 @@
     <title>Search Users</title>
 </head>
 <body>
-    <form action="/user/getUser" method="get">
+    <form action="/api/user/getUser" method="get">
         <label for="search">Search for a user:</label>
         <input type="text" name="search" id="search" placeholder="Enter a user's name">
         <input type="submit" value="Search">
@@ -18,7 +18,7 @@
             <div><%= UserDetails[i].lastname %></div>
             <div><%= UserDetails[i].email %></div>
             <div><%= UserDetails[i].phonenumber %></div>
-            <div><a href='/user/chat/<%= UserDetails[i]._id %>'>Chat now</a></div>
+            <div><a href='/api/user/chat/<%= UserDetails[i]._id %>'>Chat now</a></div>
         <% } %>
     <% } else { %>
         <div>No users found</div>

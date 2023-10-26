@@ -76,7 +76,7 @@
   
           likeButton.addEventListener('click', async () => {
               try {
-                  const response = await fetch(`/property/${propertyId}/like`, {
+                  const response = await fetch(`/api/property/${propertyId}/like`, {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json',

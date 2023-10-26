@@ -2,7 +2,7 @@ const express = require('express');
 const Router = express.Router();
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://0.0.0.0:27017/rentalPropertyManagementSystem', {
+mongoose.connect('mongodb+srv://umeshkumawat2809:pKk1WLgcAw8qtEmD@cluster0.rbleqcb.mongodb.net/RentalPropertyManagementSystem?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -14,7 +14,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   console.log('Connected to the database');
 });
-
+ 
 const userSchema = new mongoose.Schema({
   firstname: {
     required: true,
