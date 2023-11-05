@@ -10,10 +10,10 @@ import Button from "@mui/material/Button";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PropertyList from "./Pages/PropertyList";
 import PropertySpecific from "./Pages/PropertySpecific";
-import {BigCalendar} from "./Pages/Calendar(ReactBigCal)"
-import Login from './Pages/login'
-import Signup from './Pages/signup'
-import OTPVerification from './Pages/OtpVerfication'
+import { BigCalendar } from "./Pages/Calendar(ReactBigCal)";
+import Login from "./Pages/login";
+import Signup from "./Pages/signup";
+import OTPVerification from "./Pages/OtpVerfication";
 import {
   BrowserRouter as Router,
   Routes,
@@ -21,7 +21,7 @@ import {
   Link,
   useNavigate as Navigate,
 } from "react-router-dom";
-
+import Adhar from "./components/Aadhar";
 const theme = createTheme({
   palette: {
     black: {
@@ -67,6 +67,10 @@ function Main() {
             Post your property
           </Button>
         </div>
+        <div className="" style={{paddingTop : "5rem"}}>
+          <div className="fs-2 text-center">Verify your Tenant</div>
+          <Adhar />
+        </div>
         <br />
         <br />
         <br />
@@ -82,16 +86,20 @@ function App() {
       <Routes>
         <Route exact path="/" Component={Main} />
         <Route exact path="/List" element={<PropertyList />} />
-        <Route exact path="/specific/:id" element={<PropertySpecific/>}/>
-        <Route exact path="/login" element={<Login/>}/>
-        <Route exact path="/signup" element={<Signup/>}/>
-        <Route exact path="/otp" element={<OTPVerification/>}/>
+        <Route exact path="/specific/:id" element={<PropertySpecific />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/otp" element={<OTPVerification />} />
         {/* <Route exact path="/blogSpecific" element={<BlogSpecific />} /> */}
-        <Route exact path="/calendar" element={<BigCalendar/>}/>
-        <Route exact path="/map" Component={() => {
-          window.location.href = "https://www.mappls.com";
-          return null;
-        }} />
+        <Route exact path="/calendar" element={<BigCalendar />} />
+        <Route
+          exact
+          path="/map"
+          Component={() => {
+            window.location.href = "https://www.mappls.com";
+            return null;
+          }}
+        />
       </Routes>
     </Router>
   );
