@@ -13,6 +13,7 @@ const Footer = () => {
         paddingBottom: "7rem",
         gap: "7rem",
         color: " #F6F6F6",
+        marginTop : "2rem"
       }}
     >
       <div

@@ -112,7 +112,7 @@ const StyledBackdrop = styled(Backdrop)`
 `;
 
 const style = (theme) => ({
-  width: "47%",
+  width: "21.25%",
   height: "47%",
   borderRadius: "12px",
   padding: "16px 32px 24px 32px",

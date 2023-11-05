@@ -15,74 +15,7 @@ import {useState,useEffect} from 'react'
 // import T from "../MUI_components/Trash"
 const PropertyList = () => {
   const [details,setDetails]=useState({})
-  const prod = [
-    {
-      title: "How will my baby's movements feel, week by week?",
-      content:
-        "We are the proud owners of this 2 bhk apartment available in gorai suyog, gorai 2, mumbai andheri-Dahisar. This it is a and the unit is located on 3rd floor and has a super built-Up area of 600 sq.Ft. . It has 2 bathroom(s). The ownership is freehold type",
-      photo: Panorama,
-      address: "2 Bedroom House for rent in Gorai 2",
-      area : 750,
-      room : 1,
-      month : "40,000"
-    },
-    {
-      title: "How will my baby's movements feel, week by week?",
-      content:
-        "Description of Property",
-      photo: PropertyImg,
-      address: "2 Bedroom House for rent in Gorai 2"
-    },
-    {
-      title: "How will my baby's movements feel, week by week?",
-      content:
-        "Description of Property",
-      photo: PropertyImg,
-      address: "2 Bedroom House for rent in Gorai 2"
-    },
-    {
-      title: "How will my baby's movements feel, week by week?",
-      content:
-        "Description of Property",
-      photo: PropertyImg,
-      address: "2 Bedroom House for rent in Gorai 2"
-    },
-    {
-      title: "How will my baby's movements feel, week by week?",
-      content:
-        "Description of Property",
-      photo: PropertyImg,
-      address: "2 Bedroom House for rent in Gorai 2"
-    },
-    {
-      title: "How will my baby's movements feel, week by week?",
-      content:
-        "Description of Property",
-      photo: PropertyImg,
-      address: "2 Bedroom House for rent in Gorai 2"
-    },
-    {
-      title: "How will my baby's movements feel, week by week?",
-      content:
-        "Description of Property",
-      photo: PropertyImg,
-      address: "2 Bedroom House for rent in Gorai 2"
-    },
-    {
-      title: "How will my baby's movements feel, week by week?",
-      content:
-        "Description of Property",
-      photo: PropertyImg,
-      address: "2 Bedroom House for rent in Gorai 2"
-    },
-    {
-      title: "How will my baby's movements feel, week by week?",
-      content:
-        "Description of Property",
-      photo: Panorama,
-      address: "2 Bedroom House for rent in Gorai 2"
-    },
-  ];
+
   // AOS.init();
   useEffect(()=>{
     const propertyDetails=async ()=>{
@@ -119,7 +52,7 @@ const PropertyList = () => {
           {/* <br /> */}
           {/* <br/> */}
           <div style={{display : "flex", justifyContent : "space-between", paddingRight : "15.5rem"}}>
-            <div style={{ paddingLeft: "0rem", fontWeight : "700", fontSize : "2rem" }}>{/* &nbsp; */}{prod.length} results</div>
+            <div style={{ paddingLeft: "0rem", fontWeight : "700", fontSize : "2rem" }}>&nbsp; {details.length} results</div>
             {/* <Link to="/map">
             </Link> */}
             <a href="http://www.mappls.com">
