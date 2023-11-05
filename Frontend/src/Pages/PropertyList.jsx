@@ -11,6 +11,7 @@ import StreetviewIcon from '@mui/icons-material/Streetview';
 import Panel from "../components/360_view/Panel"
 import axios from 'axios'
 import {useState,useEffect} from 'react'
+import Loading from "../MUI_components/Loading"
 // import AOS from 'aos';
 // import T from "../MUI_components/Trash"
 const PropertyList = () => {
@@ -98,7 +99,7 @@ const PropertyList = () => {
             </div> */}
             {details.length>0?details.map((val) => (
               <Card rentalValue={val.rentalValue} address={val.address} noOfBedroom={val.noOfBedroom} squareFeet={val.squareFeet} 
-               description={val.description} image={val.images} _id={val._id}/>)):<div>Loading</div>}
+               description={val.description} image={val.images} _id={val._id}/>)):<div><Loading/></div>}
             
 
           </div>
