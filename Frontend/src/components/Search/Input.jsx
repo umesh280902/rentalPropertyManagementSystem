@@ -3,7 +3,7 @@ import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function FixedTags() {
+const FixedTags = ({setSearch}) => {
   const fixedOptions = [
     // Location[6]
 ];
@@ -20,6 +20,14 @@ export default function FixedTags() {
           ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),
         ]);
         console.log(...newValue)
+        // const newValue = JSON.stringify(newValue)
+        var sss =""
+        for(var i = 0;i<newValue.length;i++){
+          sss += newValue[i].station
+        }
+        console.log(sss)
+        // setSearch(sss)
+        // newValue.stringify
       }}
       options={Location}
       getOptionLabel={(option) => option.station}
@@ -42,23 +50,26 @@ export default function FixedTags() {
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const Location = [
-  { "station": "Borivali West" },
-  { "station": "Borivali East" },
-  { "station": "Andheri West" },
-  { "station": "Andheri East" },
-  { "station": "Malad West" },
-  { "station": "Malad East" },
-  { "station": "Kandivali West" },
-  { "station": "Kandivali East" },
-  { "station": "Goregaon West" },
-  { "station": "Goregaon East" },
-  { "station": "Vile Parle West" },
-  { "station": "Vile Parle East" },
-  { "station": "Santacruz West" },
-  { "station": "Santacruz East" },
-  { "station": "Khar West" },
-  { "station": "Khar East" },
-  { "station": "Bandra West" },
-  { "station": "Bandra East" },
+  { "station": "Borivali(W)" },
+  { "station": "Borivali(E)" },
+  { "station": "Andheri(W)" },
+  { "station": "Andheri(E)" },
+  { "station": "Malad(W)" },
+  { "station": "Malad(E)" },
+  { "station": "Kandivali(W)" },
+  { "station": "Kandivali(E)" },
+  { "station": "Goregaon(W)" },
+  { "station": "Goregaon(E)" },
+  { "station": "Vile Parle(W)" },
+  { "station": "Vile Parle(E)" },
+  { "station": "Santacruz(W)" },
+  { "station": "Santacruz(E)" },
+  { "station": "Khar(W)" },
+  { "station": "Khar(E)" },
+  { "station": "Bandra(W)" },
+  { "station": "Bandra(E)" }, 
   { "station": "Mumbai Central" }
+
 ];
+
+export default FixedTags

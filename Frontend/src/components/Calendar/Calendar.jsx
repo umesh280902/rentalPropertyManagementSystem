@@ -39,7 +39,7 @@ const Calen = ({ setInputDate }) => {
           ) : (
             <div>
               <h3>Date : {selectedDate.toDateString()}</h3>
-              <h2>Add new event</h2>
+              {/* <h2>Add new event</h2> */}
 
             </div>
           )}

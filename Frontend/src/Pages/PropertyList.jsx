@@ -12,6 +12,7 @@ import Panel from "../components/360_view/Panel"
 import axios from 'axios'
 import {useState,useEffect} from 'react'
 import Loading from "../MUI_components/Loading"
+import Slider from "../MUI_components/Slider"
 // import AOS from 'aos';
 // import T from "../MUI_components/Trash"
 const PropertyList = () => {
@@ -40,13 +41,14 @@ const PropertyList = () => {
           paddingLeft: "19rem",
         }}
       >
-        <div style={{ width: "30%" }}>
+        <div style={{ width: "70%" }}>
           <Accordion
             head1="Budget"
-            head2="Type of Property"
-            head3="Available for"
-            head4="Age of Property"
-            head5="Furnishing"
+            head2="Age of Property"
+            head3="Furnishing"
+            head4="Available for"
+            head5="Number of Bedrooms"
+            Slider={Slider}
           />
         </div>
         <div style={{}}>
@@ -70,7 +72,7 @@ const PropertyList = () => {
           <div
             className="DisplayProd"
             style={{
-              width: "78%",
+              width: "76%",
               // borderStyle: "dashed", borderColor: "black",
               display: "flex",
               justifyContent: "center",
@@ -99,7 +101,7 @@ const PropertyList = () => {
             </div> */}
             {details.length>0?details.map((val) => (
               <Card rentalValue={val.rentalValue} address={val.address} noOfBedroom={val.noOfBedroom} squareFeet={val.squareFeet} 
-               description={val.description} image={val.images} _id={val._id}/>)):<div><Loading/></div>}
+               description={val.description} image={val.images} _id={val._id} flooring={val.flooring} furnishing={val.furnishing} ageOfConstruct={val.ageOfConstruction} />)):<div><Loading/></div>}
             
 
           </div>

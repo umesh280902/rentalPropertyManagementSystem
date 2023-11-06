@@ -14,6 +14,8 @@ import { BigCalendar } from "./Pages/Calendar(ReactBigCal)";
 import Login from "./Pages/login";
 import Signup from "./Pages/signup";
 import OTPVerification from "./Pages/OtpVerfication";
+import Input from "./components/Search/Input";
+import Inputbox from "./components/Search/Input+Button";
 import {
   BrowserRouter as Router,
   Routes,
@@ -34,7 +36,7 @@ const theme = createTheme({
     },
   },
 });
-function Main() {
+const Main = ({setSearch}) => {
   return (
     <ThemeProvider theme={theme}>
       <div>
@@ -45,7 +47,7 @@ function Main() {
           Welcome back! Let's continue with your search!
         </h1>
         <br />
-        <Tabs />
+        <Tabs setSearch={setSearch} Input={Input} InputBox={Inputbox} />
         <br />
         <br />
         <div
@@ -79,12 +81,16 @@ function Main() {
     </ThemeProvider>
   );
 }
+
 function App() {
+  const [search, setSearch] = useState("bandra")
+  // <Route exact path="/List/:search" element={<PropertyList />} />
+
   return (
     <Router>
       {/* <YourComponent/> */}
       <Routes>
-        <Route exact path="/" Component={Main} />
+        <Route exact path="/" element={<Main setSearch={setSearch} />} />
         <Route exact path="/List" element={<PropertyList />} />
         <Route exact path="/specific/:id" element={<PropertySpecific />} />
         <Route exact path="/login" element={<Login />} />
