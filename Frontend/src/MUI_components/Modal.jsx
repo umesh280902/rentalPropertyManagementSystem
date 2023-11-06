@@ -5,7 +5,6 @@ import { styled, Box } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
 import { Button } from "@mui/material";
 
-
 export default function ModalUnstyled({
   ButtonName,
   Content,
@@ -13,7 +12,7 @@ export default function ModalUnstyled({
   setInputDate,
   setInputTime,
   TimePicker,
-  setSubmit
+  setSubmit,
 }) {
   const [open, setOpen] = React.useState(false);
   // const handleOpen = () => setOpen(true);
@@ -21,9 +20,12 @@ export default function ModalUnstyled({
 
   return (
     <div>
-      <TriggerButton type="button" onClick={() => {
-        setOpen(true)
-      }}>
+      <TriggerButton
+        type="button"
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
         {ButtonName}
       </TriggerButton>
       <Modal
@@ -35,24 +37,30 @@ export default function ModalUnstyled({
       >
         <Box sx={style}>
           {Content}
-          <Calendar setInputDate={setInputDate} />
-          {/* <h2 id="unstyled-modal-title">Text in a modal</h2>
+          {setInputDate && setInputTime ? (
+            <div>
+              <Calendar setInputDate={setInputDate} />
+              {/* <h2 id="unstyled-modal-title">Text in a modal</h2>
           <p id="unstyled-modal-description">Aliquid amet deserunt earum!</p> */}
-          {/* <Button variant="contained" onClick={setOpen(false)}>Accept</Button> */}
-          <TimePicker setInputTime={setInputTime} />
+              {/* <Button variant="contained" onClick={setOpen(false)}>Accept</Button> */}
+              <TimePicker setInputTime={setInputTime} />
 
-          <div>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setOpen(false);
-                setSubmit(true);
-              }}
-            >
-              {" "}
-              Accept
-            </Button>
-          </div>
+              <div>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setOpen(false);
+                    setSubmit(true);
+                  }}
+                >
+                  {" "}
+                  Accept
+                </Button>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </Box>
       </Modal>
     </div>
@@ -147,4 +155,3 @@ const TriggerButton = styled("button")(
   }
   `
 );
-
