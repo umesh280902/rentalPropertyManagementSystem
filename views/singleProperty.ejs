@@ -58,7 +58,7 @@
                 <% } %>
             </ul>
         </div>
-
+        
         <form action="/property/<%= property._id %>" method="post">
             <input type="text" name="comment" placeholder="Add a comment">
             <button type="submit">Submit</button>
@@ -68,6 +68,18 @@
           <button id="likeButton">Like</button>
         </div>
     </div>
+
+    <form action="/api/calendar" method="post">
+        <label for="event">Event</label>
+        <input type="text" name="event" required>
+        <label for="endDate">End Date</label>
+        <input type="text" name="endDate" required>
+        <!-- Add a hidden input field to store the propertyId -->
+        <input type="hidden" name="propertyId" value="<%= property._id %>">
+        <button type="submit">Submit</button>
+    </form>
+    
+
     <script>
       document.addEventListener('DOMContentLoaded', () => {
           const likeButton = document.getElementById('likeButton');

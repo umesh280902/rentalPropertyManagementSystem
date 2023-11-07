@@ -185,7 +185,11 @@ const PropertyDetails = () => {
                 }}
               >
                 <div style={{ width: "100%" }}>
+<<<<<<< HEAD
                   <Panel />
+=======
+                  <Panel Image={img}/>
+>>>>>>> 29a814e38fb93c529e00fad359d62fe662927809
                 </div>
                 <div>
                   another image

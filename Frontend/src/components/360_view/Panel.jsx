@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
  
 import { Pannellum, PannellumVideo } from "pannellum-react";
-import myImage from "../../Images/IMG.jpg";
 // import myVideo from "./images/video.mp4";
  
  
-const PannellumReact = () => (
+const PannellumReact = (props) => (
   <div>
     <h1>
     </h1>
@@ -74,7 +73,7 @@ const PannellumReact = () => (
     <Pannellum
         width="100%"
         height="500px"
-        image={myImage}
+        image={props.Image}
         pitch={10}
         yaw={110}
         hfov={90}
