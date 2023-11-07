@@ -17,6 +17,7 @@ const navBar = () => {
         display: "flex",
         flexDirection: "row",
         color: "#F5FBEF",
+        marginBottom : "2rem"
       }}
     >
       <div
@@ -106,7 +107,7 @@ const navBar = () => {
               to="/calendar"
             >
               
-              <a href="url">CALENDAR </a>
+              <a href="url">PROPERTY VISIT </a>
             </Link>
           </div>
           

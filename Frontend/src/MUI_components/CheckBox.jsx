@@ -9,8 +9,8 @@ export default function CheckboxLabels(prop) {
       <FormControlLabel control={<Checkbox  />} label={prop.val1} />
       <FormControlLabel control={<Checkbox  />} label={prop.val2} />
       <FormControlLabel control={<Checkbox  />} label={prop.val3} />
-      <FormControlLabel control={<Checkbox  />} label={prop.val4} />
-
+      {prop.val4 ? <FormControlLabel control={<Checkbox  />} label={prop.val4} /> : ""}
+      
     </FormGroup>
   );
 }

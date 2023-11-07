@@ -57,7 +57,6 @@ const events = [
     end: "Thu Oct 28 2023",
     // time: "4 : 00 AM"
   },
-  
 ];
 
 function BigCalendar({ EventDetails }) {
@@ -91,34 +90,39 @@ function BigCalendar({ EventDetails }) {
   return (
     <div className="App">
       <NavBar />
-      <div >
-        <h1>Calendar</h1>
-        <h2>Add New Event</h2>
-        <div>
-          <input
-            type="text"
-            placeholder="Add Title"
-            style={{ width: "20%", marginRight: "10px" }}
-            value={newEvent.title}
-            onChange={(e) =>
-              setNewEvent({ ...newEvent, title: e.target.value })
-            }
-          />
-          <DatePicker
-            placeholderText="Start Date"
-            style={{ marginRight: "10px" }}
-            selected={newEvent.start}
-            onChange={(start) => setNewEvent({ ...newEvent, start })}
-          />
-          <DatePicker
-            placeholderText="End Date"
-            selected={newEvent.end}
-            onChange={(end) => setNewEvent({ ...newEvent, end })}
-          />
-          <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
-            Add Event
-          </button>
+      <div>
+        <br/>
+        <br/>
+        <div style={{paddingLeft: "3rem"}}>
+          <h1>Calendar</h1>
+          <h2>Add New Event</h2>
+          <div>
+            <input
+              type="text"
+              placeholder="Add Title"
+              style={{ width: "20%", marginRight: "10px" }}
+              value={newEvent.title}
+              onChange={(e) =>
+                setNewEvent({ ...newEvent, title: e.target.value })
+              }
+            />
+            <DatePicker
+              placeholderText="Start Date"
+              style={{ marginRight: "10px" }}
+              selected={newEvent.start}
+              onChange={(start) => setNewEvent({ ...newEvent, start })}
+            />
+            <DatePicker
+              placeholderText="End Date"
+              selected={newEvent.end}
+              onChange={(end) => setNewEvent({ ...newEvent, end })}
+            />
+            <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
+              Add Event
+            </button>
+          </div>
         </div>
+
         <Calendar
           localizer={localizer}
           events={allEvents}
@@ -127,6 +131,7 @@ function BigCalendar({ EventDetails }) {
           style={{ height: 500, margin: "50px" }}
         />
       </div>
+      <br/>
 
       <Footer />
     </div>

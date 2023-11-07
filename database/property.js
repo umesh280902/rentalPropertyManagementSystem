@@ -138,18 +138,49 @@ Router.post('/api/user/property', authenticate, upload.array('images'), async (r
     }
 });
 
-
 Router.get('/api/property', async (req, res) => {
-    try {
-        const Properties = await Property.find({});
+    const { search, availableFor, furnishing, sortField, sortOrder } = req.query;
 
-        // Map through the properties and create a combined address
+    try {
+        // Build the search query based on the filter options
+        const searchQuery = {};
+
+        if (search) {
+            searchQuery['address.city'] = { $regex: new RegExp(search, 'i') };
+        }
+
+        if (availableFor) {
+            searchQuery['availableFor'] = availableFor;
+        }
+
+        if (furnishing) {
+            searchQuery['furnishing'] = furnishing;
+        }
+
+        // Define an array of sort criteria
+        let sortCriteria;
+
+        if (sortField && sortOrder) {
+            if (sortField === 'rentalValue') {
+                sortCriteria = { rentalValue: sortOrder === 'asc' ? 1 : -1 };
+            }
+            if (sortField === 'ageOfConstruction') {
+                sortCriteria = { ageOfConstruction: sortOrder === 'asc' ? 1 : -1 };
+            }
+            if (sortField === 'securityDeposit') {
+                sortCriteria = { securityDeposit: sortOrder === 'asc' ? 1 : -1 };
+            }
+        }
+
+        // Apply the sort criteria
+        const Properties = await Property.find(searchQuery).sort(sortCriteria);
+        console.log(Properties.map(() => {}));
+
         const updatedProperties = Properties.map((property) => {
             const combinedAddress = `${property.address.area} ${property.address.street} ${property.address.city} ${property.address.state} ${property.address.postalCode} ${property.address.country}`;
-            const imagePath='http://localhost:8800/'
-            // Remove the 'public' directory from each image's fileName
-            const removedPath=property.images[0].fileName.replace('public\\','')
-            const updatedImages =imagePath+removedPath 
+            const imagePath = 'http://localhost:8800/';
+            const removedPath = property.images[0].fileName.replace('public\\', '');
+            const updatedImages = imagePath + removedPath;
 
             return {
                 ...property.toObject(),
@@ -167,11 +198,12 @@ Router.get('/api/property', async (req, res) => {
 
 
 
+
 Router.get('/api/property/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const property = await Property.findOne({ _id: id });
-        console.log(property)
+
         if (!property) {
             return res.status(404).send('Property not found');
         }
@@ -188,13 +220,29 @@ Router.get('/api/property/:id', async (req, res) => {
             res.cookie('propertyViewsToken', token, { httpOnly: true, expires: new Date(Date.now() + 24 * 60 * 60 * 1000) });
         }
 
-        res.send(property);
+        // Map the images to update their paths
+        const imagePath = 'http://localhost:8800/';
+        const updatedImages = property.images.map((image) => {
+            const removedPath = image.fileName.replace('public\\', '');
+            return { fileName: imagePath + removedPath };
+        });
+
+        const address = property.address.street + property.address.area + property.address.city + property.address.state + property.address.postalCode + property.address.country;
+
+        // Update the property object with the modified images and address
+        const updatedProperty = {
+            ...property.toObject(),
+            images: updatedImages,
+            address: address,
+        };
+
+        res.send(updatedProperty);
     } catch (error) {
         console.log(error);
         // Handle other errors as needed.
+        res.status(500).send('Internal Server Error');
     }
 });
-
 
 Router.post('/api/property/:id', authenticate, async (req, res) => {
     try {

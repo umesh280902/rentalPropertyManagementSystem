@@ -1,7 +1,7 @@
 const express = require('express');
 const Router = express.Router();
 const mongoose = require('mongoose');
-
+const Property=require('./propertySchema')
 mongoose.connect('mongodb+srv://umeshkumawat2809:pKk1WLgcAw8qtEmD@cluster0.rbleqcb.mongodb.net/RentalPropertyManagementSystem?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -39,6 +39,31 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: 8,
   },
+  calendar:[{
+    event:{
+      type:String,
+      required:true
+    },
+    startDate: {
+      type: String,
+      default: function () {
+          return formatTime(new Date()); // Create a Date object from the timestamp
+      },
+  },
+  
+    endDate:{
+      type:String,
+      required:true
+    },
+    propertyId:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'Property'
+    },
+    userId:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'User'
+    }
+  }]
 });
 
 const messageSchema = new mongoose.Schema({
@@ -68,6 +93,14 @@ const messageSchema = new mongoose.Schema({
   ],
 });
 
+function formatTime(timestamp) {
+  const year = timestamp.getFullYear();
+  const month = (timestamp.getMonth() + 1).toString().padStart(2, '0');
+  const day = timestamp.getDate().toString().padStart(2, '0');
+  const hours = timestamp.getHours().toString().padStart(2, '0');
+  const minutes = timestamp.getMinutes().toString().padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
 
 
 const Message = mongoose.model('Message', messageSchema);

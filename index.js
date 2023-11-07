@@ -9,14 +9,23 @@ const { Message } = require('./database/database');
 const io = new Server(server);
 const port = process.env.PORT || 8800;
 const cors = require('cors');
-
+const corsOptions = {
+  origin: 'http://localhost:5173', // Change this to the origin of your frontend application
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Pass cookies, if any
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, 'public')));
 
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-app.use(cors());
+
+
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -24,7 +33,7 @@ app.set('view engine', 'ejs');
 
 app.use(require('./database/property')); // Define property routes in propertyRoutes.js
 app.use(require('./database/user').Router); // Define user routes in userRoutes.js
-
+app.use(require('./database/calendar'))
 io.on('connection', (socket) => {
   console.log('a user connected', socket.id);
   socket.emit('a user connected', socket.id);

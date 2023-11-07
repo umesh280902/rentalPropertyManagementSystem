@@ -32,7 +32,7 @@ const propertySchema = new mongoose.Schema({
         required: true,
     },
     securityDeposit: {
-        type: String,
+        type: Number,
         required: true,
     },
     furnishing: {
@@ -75,7 +75,7 @@ const propertySchema = new mongoose.Schema({
         type:String
     },
     rentalValue:{
-        type:String,
+        type:Number,
         required:true
     },
     description:{
