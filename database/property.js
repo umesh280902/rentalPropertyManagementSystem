@@ -30,7 +30,7 @@ Router.post('/api/user/property', authenticate, upload.array('images'), async (r
     try {
         const email = req.email;
         const findUser = await User.find({ email: email });
-
+        console.log(req.body)
         if (findUser.length === 0) {
             return res.status(400).send('User not found');
         }
@@ -131,7 +131,7 @@ Router.post('/api/user/property', authenticate, upload.array('images'), async (r
 
         const saveData = await propertyDetails.save();
         console.log(saveData);
-        res.redirect('/user/profile');
+        res.redirect('/');
     } catch (err) {
         console.error(err);
         res.status(500).send('Internal Server Error');
@@ -169,6 +169,9 @@ Router.get('/api/property', async (req, res) => {
             }
             if (sortField === 'securityDeposit') {
                 sortCriteria = { securityDeposit: sortOrder === 'asc' ? 1 : -1 };
+            }
+            if(sortField==='noOfBedroom'){
+                sortCriteria = { noOfBedroom: sortOrder === 'asc' ? 1 : -1 };
             }
         }
 

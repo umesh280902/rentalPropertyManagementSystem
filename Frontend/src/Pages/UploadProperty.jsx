@@ -8,14 +8,14 @@ import {
   Button,
   FormControl,
   InputLabel,
-  TextareaAutosize,
 } from "@mui/material";
-import navBar from "../components/Header/Navbar";
+import NavBar from "../components/Header/Navbar";
 import Footer from "../components/Footer/Footer";
+
 const PropertyUpload = () => {
   return (
     <div>
-      <navBar />
+      <NavBar />
       <Container maxWidth="sm">
         <Typography variant="h4" align="center" gutterBottom>
           Upload Property Information
@@ -33,6 +33,7 @@ const PropertyUpload = () => {
               <MenuItem value="commercial">Commercial</MenuItem>
             </Select>
           </FormControl>
+
           <TextField
             id="buildingName"
             name="buildingName"
@@ -41,6 +42,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="availableFrom"
             name="availableFrom"
@@ -49,6 +51,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="noOfBalconies"
             name="noOfBalconies"
@@ -57,6 +60,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="floor"
             name="floor"
@@ -65,6 +69,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <FormControl fullWidth margin="normal">
             <InputLabel htmlFor="facing">Facing:</InputLabel>
             <Select id="facing" name="facing" required>
@@ -78,15 +83,39 @@ const PropertyUpload = () => {
               <MenuItem value="southwest">Southwest</MenuItem>
             </Select>
           </FormControl>
-          {/* Add more fields here */}
-          <TextareaAutosize
-            id="description"
-            name="description"
-            aria-label="Description"
-            minRows={3}
-            placeholder="Description"
-            style={{ width: "100%" }}
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="availableFor">Available For:</InputLabel>
+            <Select id="availableFor" name="availableFor" required>
+              <MenuItem value="married">Married</MenuItem>
+              <MenuItem value="student">Student</MenuItem>
+              <MenuItem value="man">Man</MenuItem>
+              <MenuItem value="woman">Woman</MenuItem>
+              <MenuItem value="bachelor">Bachelor</MenuItem>
+              <MenuItem value="family">Family</MenuItem>
+              <MenuItem value="couple">Couple</MenuItem>
+            </Select>
+          </FormControl>
+
+          <TextField
+            id="squareFeet"
+            name="squareFeet"
+            label="Square Feet"
+            variant="outlined"
+            fullWidth
+            required
           />
+
+          <TextField
+            id="securityDeposit"
+            name="securityDeposit"
+            label="Security Deposit"
+            type="number"
+            variant="outlined"
+            fullWidth
+            required
+          />
+
           <FormControl fullWidth margin="normal">
             <InputLabel htmlFor="furnishing">Furnishing:</InputLabel>
             <Select id="furnishing" name="furnishing" required>
@@ -95,6 +124,7 @@ const PropertyUpload = () => {
               <MenuItem value="unfurnished">Unfurnished</MenuItem>
             </Select>
           </FormControl>
+
           <TextField
             id="flooring"
             name="flooring"
@@ -103,14 +133,17 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="ageOfConstruction"
             name="ageOfConstruction"
             label="Age of Construction"
+            type="number"
             variant="outlined"
             fullWidth
             required
           />
+
           <TextField
             id="waterAvailability"
             name="waterAvailability"
@@ -119,6 +152,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="numberOfLifts"
             name="numberOfLifts"
@@ -128,6 +162,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="electricityStatus"
             name="electricityStatus"
@@ -136,6 +171,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="landmark"
             name="landmark"
@@ -143,30 +179,46 @@ const PropertyUpload = () => {
             variant="outlined"
             fullWidth
           />
+
           <TextField
             id="noOfBedroom"
             name="noOfBedroom"
             label="Number of Bedrooms"
+            type="number"
             variant="outlined"
             fullWidth
             required
           />
+
           <TextField
             id="noOfBathroom"
             name="noOfBathroom"
             label="Number of Bathrooms"
+            type="number"
             variant="outlined"
             fullWidth
             required
           />
+
           <TextField
             id="rentalValue"
             name="rentalValue"
             label="Rental Value"
+            type="number"
             variant="outlined"
             fullWidth
             required
           />
+
+          <TextField
+            id="description"
+            name="description"
+            aria-label="Description"
+            minRows={3}
+            placeholder="Description"
+            style={{ width: "100%" }}
+          />
+
           <TextField
             id="street"
             name="address.street"
@@ -175,6 +227,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="area"
             name="address.area"
@@ -183,6 +236,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="city"
             name="address.city"
@@ -191,6 +245,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="state"
             name="address.state"
@@ -199,6 +254,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="postalCode"
             name="address.postalCode"
@@ -207,6 +263,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <TextField
             id="country"
             name="address.country"
@@ -215,6 +272,7 @@ const PropertyUpload = () => {
             fullWidth
             required
           />
+
           <input
             type="file"
             id="images"
@@ -223,8 +281,7 @@ const PropertyUpload = () => {
             multiple
             required
           />
-          <br />
-          <br />
+
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Submit
           </Button>
