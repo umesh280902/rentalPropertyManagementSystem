@@ -26,7 +26,7 @@ const FixedTags = ({setSearch}) => {
           sss += newValue[i].station
         }
         console.log(sss)
-        // setSearch(sss)
+        setSearch(sss)
         // newValue.stringify
       }}
       options={Location}

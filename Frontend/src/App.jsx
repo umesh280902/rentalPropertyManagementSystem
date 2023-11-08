@@ -25,8 +25,12 @@ import {
 } from "react-router-dom";
 import axios from 'axios'
 import Adhar from "./components/Aadhar";
+<<<<<<< HEAD
 import Upload from "./Pages/UploadProperty"
 import { useEffect } from "react";
+=======
+import Upload from "./Pages/UploadProperty";
+>>>>>>> 547c82a9cbf3c148ab5ce838fd627d648658b279
 const theme = createTheme({
   palette: {
     black: {
@@ -39,7 +43,9 @@ const theme = createTheme({
     },
   },
 });
-const Main = ({setSearch}) => {
+const Main = ({ 
+  // setSearch
+ }) => {
   return (
     <ThemeProvider theme={theme}>
       <div>
@@ -50,7 +56,8 @@ const Main = ({setSearch}) => {
           Welcome back! Let's continue with your search!
         </h1>
         <br />
-        <Tabs setSearch={setSearch} Input={Input} InputBox={Inputbox} />
+        <Tabs />
+
         <br />
         <br />
         <div
@@ -72,7 +79,7 @@ const Main = ({setSearch}) => {
             Post your property
           </Button>
         </div>
-        <div className="" style={{paddingTop : "5rem"}}>
+        <div className="" style={{ paddingTop: "5rem" }}>
           <div className="fs-2 text-center">Verify your Tenant</div>
           <Adhar />
         </div>
@@ -82,14 +89,17 @@ const Main = ({setSearch}) => {
         <Footer />
       </div>
     </ThemeProvider>
-   
   );
-}
+};
 
 function App() {
+<<<<<<< HEAD
   const [search, setSearch] = useState()
   const [details, setDetails] = useState()
   console.log(search)
+=======
+  // const [search, setSearch] = useState("bandra");
+>>>>>>> 547c82a9cbf3c148ab5ce838fd627d648658b279
   // <Route exact path="/List/:search" element={<PropertyList />} />
   useEffect(()=>{
    const findDetails=async ()=>{
@@ -107,8 +117,8 @@ function App() {
     <Router>
       {/* <YourComponent/> */}
       <Routes>
-        <Route exact path="/" element={<Main setSearch={setSearch} />} />
-        <Route exact path="/upload" element={<Upload/>}/>
+        <Route exact path="/" element={<Main />} />
+        <Route exact path="/upload" element={<Upload />} />
         <Route exact path="/List" element={<PropertyList />} />
         <Route exact path="/specific/:id" element={<PropertySpecific />} />
         <Route exact path="/login" element={<Login />} />
