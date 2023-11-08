@@ -27,70 +27,73 @@ const localizer = dateFnsLocalizer({
 });
 
 function BigCalendar({ EventDetails }) {
-//   const events = [
-//   {
-//     title: "Bandra | Time : 3:00",
-//     allDay: true,
-//     start: new Date(2023, 10, 23),
-//     end: new Date(2023, 10, 23),
-//   },
-//   {
-//     title: "Vacation",
-//     start: new Date(2023, 11, 24),
-//     end: new Date(2023, 11, 24),
-//   },
-//   {
-//     title: "Conference",
-//     start: new Date(2021, 6, 20),
-//     end: new Date(2021, 6, 23),
-//   },
+  //   const events = [
+  //   {
+  //     title: "Bandra | Time : 3:00",
+  //     allDay: true,
+  //     start: new Date(2023, 10, 23),
+  //     end: new Date(2023, 10, 23),
+  //   },
+  //   {
+  //     title: "Vacation",
+  //     start: new Date(2023, 11, 24),
+  //     end: new Date(2023, 11, 24),
+  //   },
+  //   {
+  //     title: "Conference",
+  //     start: new Date(2021, 6, 20),
+  //     end: new Date(2021, 6, 23),
+  //   },
 
-//   {
-//     title: `Bandra | Time : 04:00`,
-//     start: "Wed Sep 27 2023",
-//     end: "Thu Sep 28 2023",
-//     // time: "4 : 00 AM"
-//   },
-//   {
-//     title: `Andheri | Time : 14:00`,
-//     start: "Wed Oct 27 2023",
-//     end: "Thu Oct 28 2023",
-//     // time: "4 : 00 AM"
-//   },
-  
-// ];
+  //   {
+  //     title: `Bandra | Time : 04:00`,
+  //     start: "Wed Sep 27 2023",
+  //     end: "Thu Sep 28 2023",
+  //     // time: "4 : 00 AM"
+  //   },
+  //   {
+  //     title: `Andheri | Time : 14:00`,
+  //     start: "Wed Oct 27 2023",
+  //     end: "Thu Oct 28 2023",
+  //     // time: "4 : 00 AM"
+  //   },
+
+  // ];
   const [displayEvent, setDisplayEvent] = useState([
-  {
-    title: "Bandra | Time : 3:00",
-    allDay: true,
-    start: new Date(2023, 10, 23),
-    end: new Date(2023, 10, 23),
-  },
-  {
-    title: "Vacation",
-    start: new Date(2023, 11, 24),
-    end: new Date(2023, 11, 24),
-  },
-  {
-    title: "Conference",
-    start: new Date(2021, 6, 20),
-    end: new Date(2021, 6, 23),
-  },
+    {
+      title: "Bandra | Time : 3:00",
+      allDay: true,
+      start: new Date(2023, 10, 23),
+      end: new Date(2023, 10, 23),
+    },
+    {
+      title: "Vacation",
+      start: new Date(2023, 11, 24),
+      end: new Date(2023, 11, 24),
+    },
+    {
+      title: "Conference",
+      start: new Date(2021, 6, 20),
+      end: new Date(2021, 6, 23),
+    },
 
-  {
-    title: `Bandra | Time : 04:00`,
-    start: "Wed Sep 27 2023",
-    end: "Thu Sep 28 2023",
-    // time: "4 : 00 AM"
-  },
-  {
-    title: `Andheri | Time : 14:00`,
-    start: "Wed Oct 27 2023",
-    end: "Thu Oct 28 2023",
-    // time: "4 : 00 AM"
-  }])
-  const[events, setEvents] = useState([])
+    {
+      title: `Bandra | Time : 04:00`,
+      start: "Wed Nov 15 2023",
+      end: "Thu Nov 16 2023",
+      // time: "4 : 00 AM"
+    },
+    {
+      title: `Andheri | Time : 14:00`,
+      start: "Wed Oct 27 2023",
+      end: "Thu Oct 28 2023",
+      // time: "4 : 00 AM"
+    },
+  ]);
+  //storing the response data
+  const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+  //the data where the calendar stores
   const [allEvents, setAllEvents] = useState(displayEvent);
 
   function handleAddEvent() {
@@ -117,28 +120,33 @@ function BigCalendar({ EventDetails }) {
   // console.log(...EventDetails)
   // console.log(`EventDetails `, typeof Details);
 
-
   useEffect(() => {
     const getDates = async () => {
       try {
-        const response = await axios.get('/api/calendar');
-        console.log(response.data)
-        setEvents(response.data[0]); // Assuming that the data returned is an array
-        const final =  displayEvent.map(val => {
-          var i = 0;
-          val.title = response.data[i].event
-          var c = response.data[i].endDate.split("/")
-          c[0] =  `20${c[0]}`
-          console.log("The values",`${c[0]} ${c[1]} ${c[2]}`)
+        const response = await axios.get("/api/calendar");
+        console.log("The data ", response.data);
+        setEvents(...response.data); // Assuming that the data returned is an array
+        // console.log("The date ",response.data[0].endDate.slice(0,14))
+        var formatedDates = [];
 
-          var FinalDate = new Date(c[0],c[1],c[2])
-          val.start = FinalDate
-          val.end = FinalDate
-          i++
-          console.log("The value of i ",i)
-        })
-        setDisplayEvent(final)
-        console.log(...displayEvent)
+        for (var i = 0; i < response.data.length; i++) {
+          var content = response.data[i].event;
+          var formatEndDate = response.data[i].endDate.slice(0, 15);
+          console.log("End Date", formatEndDate);
+          // var c = response.data[i].endDate.split("/");
+          // c[0] = `20${c[0]}`;
+
+          formatedDates.push({
+            title: content,
+            start: formatEndDate,
+            end: formatEndDate,
+          });
+        }
+        console.log("The formated Dates", ...formatedDates);
+
+        setDisplayEvent(formatedDates);
+        setAllEvents(formatedDates)
+        // console.log("The default dates",...displayEvent)
       } catch (error) {
         console.log(error);
       }
@@ -164,13 +172,13 @@ function BigCalendar({ EventDetails }) {
             style={{ height: 500, margin: "50px" }}
             />
           } */}
-   <Calendar
-          localizer={localizer}
-          events={allEvents}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 500, margin: "50px" }}
-        />
+          <Calendar
+            localizer={localizer}
+            events={allEvents}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 500, margin: "50px" }}
+          />
         </div>
         <br />
       </div>
