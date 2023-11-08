@@ -138,8 +138,10 @@ Router.post('/api/user/property', authenticate, upload.array('images'), async (r
     }
 });
 
+
 Router.get('/api/property', async (req, res) => {
-    const { search, availableFor, furnishing, sortField, sortOrder } = req.query;
+    const { search, availableFor, furnishing, sortField, sortOrder, ageOfConstruction, noOfBedrooms,rentalValue } = req.query;
+    console.log(req.query)
 
     try {
         // Build the search query based on the filter options
@@ -150,11 +152,31 @@ Router.get('/api/property', async (req, res) => {
         }
 
         if (availableFor) {
-            searchQuery['availableFor'] = availableFor;
+            searchQuery['availableFor'] = { $regex: new RegExp(availableFor, 'i') };;
         }
 
         if (furnishing) {
             searchQuery['furnishing'] = furnishing;
+        }
+        if (rentalValue) {
+            searchQuery['rentalValue'] = furnishing;
+        }
+        // Extract the numbers from ageOfProperty using regex
+        if (ageOfConstruction) {
+            const match = ageOfConstruction.match(/\d+/);
+            const age = match ? parseInt(match[0], 10) : null;
+            if (age !== null) {
+                searchQuery['ageOfProperty'] = age;
+            }
+        }
+
+        // Extract the numbers from noOfBedroom using regex
+        if (noOfBedrooms) {
+            const match = noOfBedrooms.match(/\d+/);
+            const bedrooms = match ? parseInt(match[0], 10) : null;
+            if (bedrooms !== null) {
+                searchQuery['noOfBedroom'] = bedrooms;
+            }
         }
 
         // Define an array of sort criteria
@@ -170,14 +192,16 @@ Router.get('/api/property', async (req, res) => {
             if (sortField === 'securityDeposit') {
                 sortCriteria = { securityDeposit: sortOrder === 'asc' ? 1 : -1 };
             }
-            if(sortField==='noOfBedroom'){
+            if (sortField === 'noOfBedroom') {
                 sortCriteria = { noOfBedroom: sortOrder === 'asc' ? 1 : -1 };
+            }
+            if (sortField === 'noOfBalconies') {
+                sortCriteria = { noOfBalconies: sortOrder === 'asc' ? 1 : -1 };
             }
         }
 
         // Apply the sort criteria
         const Properties = await Property.find(searchQuery).sort(sortCriteria);
-        console.log(Properties.map(() => {}));
 
         const updatedProperties = Properties.map((property) => {
             const combinedAddress = `${property.address.area} ${property.address.street} ${property.address.city} ${property.address.state} ${property.address.postalCode} ${property.address.country}`;
@@ -192,12 +216,12 @@ Router.get('/api/property', async (req, res) => {
             };
         });
 
-        console.log(updatedProperties);
         res.send([updatedProperties]);
     } catch (error) {
         console.log(error);
     }
 });
+
 
 
 

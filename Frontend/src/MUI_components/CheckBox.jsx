@@ -1,16 +1,26 @@
-import * as React from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import React from "react";
 
-export default function CheckboxLabels(prop) {
+export default function CheckBox(props) {
+  const handleCheckBoxClick = (value) => {
+    if (props.onClick) {
+      props.onClick(value);
+    }
+  };
+
+  const checkboxValues = [props.val1, props.val2, props.val3];
+
   return (
-    <FormGroup>
-      <FormControlLabel control={<Checkbox  />} label={prop.val1} />
-      <FormControlLabel control={<Checkbox  />} label={prop.val2} />
-      <FormControlLabel control={<Checkbox  />} label={prop.val3} />
-      {prop.val4 ? <FormControlLabel control={<Checkbox  />} label={prop.val4} /> : ""}
-      
-    </FormGroup>
+    <div style={{ display: "flex", flexFlow: "column", gap: "10px" }}>
+      {checkboxValues.map((value, index) => (
+        <label key={index}>
+          <input
+            type="checkbox"
+            value={value}
+            onClick={() => handleCheckBoxClick(value)}
+          />
+          {value}
+        </label>
+      ))}
+    </div>
   );
 }

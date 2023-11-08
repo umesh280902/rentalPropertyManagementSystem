@@ -39,48 +39,48 @@ const theme = createTheme({
 });
 const Main = ({setSearch}) => {
   return (
-    // <ThemeProvider theme={theme}>
-    //   <div>
-    //     <NavBar />
-    //     <br />
-    //     <br />
-    //     <h1 style={{ textAlign: "center" }}>
-    //       Welcome back! Let's continue with your search!
-    //     </h1>
-    //     <br />
-    //     <Tabs setSearch={setSearch} Input={Input} InputBox={Inputbox} />
-    //     <br />
-    //     <br />
-    //     <div
-    //       style={{
-    //         display: "flex",
-    //         justifyContent: "center",
-    //         flexDirection: "column",
-    //         textAlign: "center",
-    //         alignItems: "center",
-    //       }}
-    //     >
-    //       <h1>Are you a property Owner?</h1>
-    //       <Button
-    //         variant="contained"
-    //         size="large"
-    //         style={{ width: "15%", color: "white" }}
-    //         color="black"
-    //       >
-    //         Post your property
-    //       </Button>
-    //     </div>
-    //     <div className="" style={{paddingTop : "5rem"}}>
-    //       <div className="fs-2 text-center">Verify your Tenant</div>
-    //       <Adhar />
-    //     </div>
-    //     <br />
-    //     <br />
-    //     <br />
-    //     <Footer />
-    //   </div>
-    // </ThemeProvider>
-    <Upload/>
+    <ThemeProvider theme={theme}>
+      <div>
+        <NavBar />
+        <br />
+        <br />
+        <h1 style={{ textAlign: "center" }}>
+          Welcome back! Let's continue with your search!
+        </h1>
+        <br />
+        <Tabs setSearch={setSearch} Input={Input} InputBox={Inputbox} />
+        <br />
+        <br />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            textAlign: "center",
+            alignItems: "center",
+          }}
+        >
+          <h1>Are you a property Owner?</h1>
+          <Button
+            variant="contained"
+            size="large"
+            style={{ width: "15%", color: "white" }}
+            color="black"
+          >
+            Post your property
+          </Button>
+        </div>
+        <div className="" style={{paddingTop : "5rem"}}>
+          <div className="fs-2 text-center">Verify your Tenant</div>
+          <Adhar />
+        </div>
+        <br />
+        <br />
+        <br />
+        <Footer />
+      </div>
+    </ThemeProvider>
+   
   );
 }
 
@@ -93,6 +93,7 @@ function App() {
       {/* <YourComponent/> */}
       <Routes>
         <Route exact path="/" element={<Main setSearch={setSearch} />} />
+        <Route exact path="/upload" element={<Upload/>}/>
         <Route exact path="/List" element={<PropertyList />} />
         <Route exact path="/specific/:id" element={<PropertySpecific />} />
         <Route exact path="/login" element={<Login />} />
