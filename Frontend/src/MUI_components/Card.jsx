@@ -34,7 +34,7 @@ export default function MultiActionAreaCard({
   ageOfConstruct = `Age : ${ageOfConstruct}`
   furnishing = `furnishing : ${furnishing}`
   return (
-    <Card sx={{ width: "1000", height: "" }}>
+    <Card sx={{ width: "800", height: "" }}>
       <CardActionArea
         sx={{ display: "flex", justifyContent: "center", flexDirection: "row" }}
       >
