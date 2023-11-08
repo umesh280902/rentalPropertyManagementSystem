@@ -24,7 +24,7 @@ import {
   useNavigate as Navigate,
 } from "react-router-dom";
 import Adhar from "./components/Aadhar";
-import Upload from "./Pages/UploadProperty"
+import Upload from "./Pages/UploadProperty";
 const theme = createTheme({
   palette: {
     black: {
@@ -37,7 +37,9 @@ const theme = createTheme({
     },
   },
 });
-const Main = ({setSearch}) => {
+const Main = ({ 
+  // setSearch
+ }) => {
   return (
     <ThemeProvider theme={theme}>
       <div>
@@ -48,7 +50,8 @@ const Main = ({setSearch}) => {
           Welcome back! Let's continue with your search!
         </h1>
         <br />
-        <Tabs setSearch={setSearch} Input={Input} InputBox={Inputbox} />
+        <Tabs />
+
         <br />
         <br />
         <div
@@ -70,7 +73,7 @@ const Main = ({setSearch}) => {
             Post your property
           </Button>
         </div>
-        <div className="" style={{paddingTop : "5rem"}}>
+        <div className="" style={{ paddingTop: "5rem" }}>
           <div className="fs-2 text-center">Verify your Tenant</div>
           <Adhar />
         </div>
@@ -80,20 +83,19 @@ const Main = ({setSearch}) => {
         <Footer />
       </div>
     </ThemeProvider>
-   
   );
-}
+};
 
 function App() {
-  const [search, setSearch] = useState("bandra")
+  // const [search, setSearch] = useState("bandra");
   // <Route exact path="/List/:search" element={<PropertyList />} />
 
   return (
     <Router>
       {/* <YourComponent/> */}
       <Routes>
-        <Route exact path="/" element={<Main setSearch={setSearch} />} />
-        <Route exact path="/upload" element={<Upload/>}/>
+        <Route exact path="/" element={<Main />} />
+        <Route exact path="/upload" element={<Upload />} />
         <Route exact path="/List" element={<PropertyList />} />
         <Route exact path="/specific/:id" element={<PropertySpecific />} />
         <Route exact path="/login" element={<Login />} />

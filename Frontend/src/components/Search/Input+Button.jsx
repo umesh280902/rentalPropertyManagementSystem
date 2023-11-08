@@ -1,7 +1,7 @@
 import Input from "./Input"
 import Button from "@mui/material/Button";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import React from "react";
 const theme = createTheme({
   palette: {
     black: {
@@ -15,10 +15,16 @@ const theme = createTheme({
   },
 });
 const Inputbox = () => {
+  const [search, setSearch] = React.useState("bandra");
+
     return (
       <ThemeProvider theme={theme}>
+        {/* <div> */}
+          {/* hola */}
+          {console.log(search)}
+        {/* </div> */}
         <div style={{display : "flex", justifyContent : "center", flexDirection : "row"}}>
-            <Input/>
+            <Input setSearch={setSearch} />
             <Button
             sx={{
               fontSize: "1rem",

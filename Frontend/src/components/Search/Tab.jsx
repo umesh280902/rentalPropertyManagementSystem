@@ -59,8 +59,11 @@ const CustomPanel = ({ value, index }) => {
     </CustomTabPanel>
   );
 };
-export default function BasicTabs() {
+export default function BasicTabs({
+  // setSearch
+}) {
   const [value, setValue] = React.useState(0);
+  // const [search, setSearch] = React.useState("bandra");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -92,14 +95,14 @@ export default function BasicTabs() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <Inputbox />
+          <Inputbox/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <Inputbox />
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
+        {/* <CustomTabPanel value={value} index={2}>
           <Inputbox />
-        </CustomTabPanel>
+        </CustomTabPanel> */}
         {/* <CustomPanel value={value} index={2}/> */}
         {/* <CustomPanel value={value} index={2}/> */}
       </Box>
