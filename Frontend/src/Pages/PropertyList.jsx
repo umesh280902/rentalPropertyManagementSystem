@@ -38,10 +38,10 @@ const PropertyList = () => {
           display: "flex",
           justifyContent: "flex-end",
           gap: "3rem",
-          paddingLeft: "19rem",
+          paddingLeft: "10rem",
         }}
       >
-        <div style={{ width: "70%" }}>
+        <div style={{ width: "50%" }}>
           <Accordion
             head1="Budget"
             head2="Age of Property"
@@ -72,7 +72,7 @@ const PropertyList = () => {
           <div
             className="DisplayProd"
             style={{
-              width: "76%",
+              width: "60%",
               // borderStyle: "dashed", borderColor: "black",
               display: "flex",
               justifyContent: "center",

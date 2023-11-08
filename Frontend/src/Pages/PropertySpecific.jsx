@@ -45,8 +45,9 @@ const PropertyDetails = () => {
         console.log(id);
         const response = await axios.get(`/api/property/${id[4]}`);
         setPropertyDetail(response.data);
-        console.log(response.data);
-        setImg(propertyDetail.images[0].fileName);
+        console.log(propertyDetail);
+        setImg(response.data.images[0].fileName);
+        console.log("The image url is ",img)
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -166,9 +167,6 @@ const PropertyDetails = () => {
                 </div>
               </div>
             </div>
-            <br />
-            <Divider />
-            <br />
             <div
               style={{
                 display: "flex",
@@ -182,18 +180,20 @@ const PropertyDetails = () => {
                   display: "flex",
                   justifyContent: "flex-end",
                   gap: "1rem",
+                  justifyItems : "center",
+                  width : "50%"
                 }}
               >
-                <div style={{ width: "100%" }}>
-<<<<<<< HEAD
-                  <Panel />
-=======
-                  <Panel Image={img}/>
->>>>>>> 29a814e38fb93c529e00fad359d62fe662927809
+                <div style={{ width: "500", height : "500" }}>
+{/* <<<<<<< HEAD */}
+                  {/* <Panel /> */}
+{/* ======= */}
+                  {img ? <Panel Image={img}/> : ""} 
+{/* >>>>>>> 29a814e38fb93c529e00fad359d62fe662927809 */}
                 </div>
-                <div>
-                  another image
-                  <img src={propertyDetail.images[0].fileName} alt="failed" />
+                <div style={{width : "500", height : "500"}}>
+                  <Panel Image={propertyDetail.images[1].fileName} />
+                  {/* <img src={propertyDetail.images[1].fileName} alt="failed" /> */}
                 </div>
               </div>
               <div
@@ -202,6 +202,7 @@ const PropertyDetails = () => {
                   justifyContent: "center",
                   flexDirection: "row",
                   gap: "3rem",
+                  paddingTop : "3.25rem"
                 }}
               >
                 <div>

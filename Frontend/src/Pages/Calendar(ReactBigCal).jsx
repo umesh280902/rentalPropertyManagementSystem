@@ -93,7 +93,7 @@ function BigCalendar({ EventDetails }) {
       <div>
         <br/>
         <br/>
-        <div style={{paddingLeft: "3rem"}}>
+        {/* <div style={{paddingLeft: "3rem"}}>
           <h1>Calendar</h1>
           <h2>Add New Event</h2>
           <div>
@@ -121,7 +121,7 @@ function BigCalendar({ EventDetails }) {
               Add Event
             </button>
           </div>
-        </div>
+        </div> */}
 
         <Calendar
           localizer={localizer}

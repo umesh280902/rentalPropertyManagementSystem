@@ -6,8 +6,10 @@ import { Pannellum, PannellumVideo } from "pannellum-react";
  
  
 const PannellumReact = (props) => (
+  
   <div>
     <h1>
+      {/* {console.log(`Props recieved ${props.Image}`)} */}
     </h1>
     <div style={{}}>
               &nbsp;
