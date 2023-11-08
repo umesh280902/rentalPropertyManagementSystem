@@ -1,47 +1,50 @@
-import Input from "./Input"
+import React, { useState } from "react";
+import Input from "./Input";
 import Button from "@mui/material/Button";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import React from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+
 const theme = createTheme({
   palette: {
     black: {
-      //main color
-      main: '#EC0B43',
-      light: '#040F0F',
-      //hover karne par
-      dark: '#040F0F',
-      contrastText: '#040F0F',
+      main: "#EC0B43",
+      light: "#040F0F",
+      dark: "#040F0F",
+      contrastText: "#040F0F",
     },
   },
 });
-const Inputbox = () => {
-  const [search, setSearch] = React.useState("bandra");
 
-    return (
-      <ThemeProvider theme={theme}>
-        {/* <div> */}
-          {/* hola */}
-          {console.log(search)}
-        {/* </div> */}
-        <div style={{display : "flex", justifyContent : "center", flexDirection : "row"}}>
-            <Input setSearch={setSearch} />
-            <Button
-            sx={{
-              fontSize: "1rem",
-              font: "Inter",
-              boxShadow: "0px 0px",
-              fontWeight: "500",
-              // backgroundColor: "#084822",
-              color : "white"
-            }}
-            variant="contained"
-            color="black"
-          >
-            {" "}
-            Search
-          </Button>
-        </div>
-        </ThemeProvider>
-    )
-}
-export default Inputbox
+const Inputbox = () => {
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate("/list", { state: search  });
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <div style={{ display: "flex", justifyContent: "center", flexDirection: "row" }}>
+        <Input setSearch={setSearch} />
+        <Button
+          onClick={handleSearch}
+          sx={{
+            fontSize: "1rem",
+            font: "Inter",
+            boxShadow: "0px 0px",
+            fontWeight: "500",
+            color: "white",
+          }}
+          variant="contained"
+          color="black"
+        >
+          {" "}
+          Search
+        </Button>
+      </div>
+    </ThemeProvider>
+  );
+};
+
+export default Inputbox;
