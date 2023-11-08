@@ -16,17 +16,53 @@ import Slider from "../MUI_components/Slider"
 // import AOS from 'aos';
 // import T from "../MUI_components/Trash"
 const PropertyList = () => {
-  const [details,setDetails]=useState({})
-
+  const [details, setDetails] = useState({});
+  const [activeFilters, setActiveFilters] = useState({});
+  
+  const handleFiltersChange = (newFilters) => {
+    setActiveFilters(newFilters);
+  };
+  console.log(activeFilters)
+  const [queryParams, setQueryParams] = useState({
+    rentalValue: activeFilters.budget,
+    ageOfConstruction: activeFilters.ageOfProperty,
+    furnishing: activeFilters.furnishing,
+    availableFor: activeFilters.availableFor,
+    bedrooms: activeFilters.bedrooms,
+  });
+  
+  
   // AOS.init();
-  useEffect(()=>{
-    const propertyDetails=async ()=>{
-      const response=await axios.get('/api/property')
-      console.log(response.data)
-      setDetails(response.data[0])
-    }
-    propertyDetails()
-  },[])
+  useEffect(() => {
+    const propertyDetails = async () => {
+    
+      const queryParams = {
+        rentalValue: activeFilters.rentalValue,
+        ageOfConstruction: activeFilters.ageOfconstruction,
+        furnishing: activeFilters.furnishing,
+        availableFor: activeFilters.availableFor,
+        noOfBedrooms: activeFilters.noOfBedrooms,
+      };
+      console.log(queryParams)
+      const response = await axios.get('/api/property', {
+        params: queryParams,
+      });
+      
+
+      console.log(response.data);
+      setDetails(response.data[0]);
+      setQueryParams({
+        rentalValue: null,
+        ageOfConstruction: null,
+        furnishing: null,
+        availableFor: null,
+       noOfBedrooms: null,
+      })
+      console.log(queryParams)
+    };
+
+    propertyDetails();
+  }, [activeFilters]);
   return (
     <div>
       <NavBar />
@@ -49,6 +85,7 @@ const PropertyList = () => {
             head4="Available for"
             head5="Number of Bedrooms"
             Slider={Slider}
+            onFiltersChange={handleFiltersChange}
           />
         </div>
         <div style={{}}>

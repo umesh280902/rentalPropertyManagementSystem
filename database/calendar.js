@@ -59,8 +59,8 @@ Router.get('/api/calendar',authenticate, async(req,res)=>{
         const Details=await User.find({email:email})
         const CalendarDetails=Details[0].calendar
         console.log(CalendarDetails)
-        //res.send(CalendarDetails)
-        res.render('calendar',{CalendarDetails})
+        res.send(CalendarDetails)
+        //res.render('calendar',{CalendarDetails})
 
     } catch (error) {
         

@@ -80,7 +80,7 @@ const Main = ({setSearch}) => {
         <Footer />
       </div>
     </ThemeProvider>
-    // <Upload/>
+   
   );
 }
 
@@ -93,6 +93,7 @@ function App() {
       {/* <YourComponent/> */}
       <Routes>
         <Route exact path="/" element={<Main setSearch={setSearch} />} />
+        <Route exact path="/upload" element={<Upload/>}/>
         <Route exact path="/List" element={<PropertyList />} />
         <Route exact path="/specific/:id" element={<PropertySpecific />} />
         <Route exact path="/login" element={<Login />} />
