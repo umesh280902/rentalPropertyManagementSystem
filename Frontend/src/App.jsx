@@ -25,12 +25,7 @@ import {
 } from "react-router-dom";
 import axios from 'axios'
 import Adhar from "./components/Aadhar";
-<<<<<<< HEAD
-import Upload from "./Pages/UploadProperty"
-import { useEffect } from "react";
-=======
 import Upload from "./Pages/UploadProperty";
->>>>>>> dae1dec735f7920356d90dc10f363cfeb675b36f
 const theme = createTheme({
   palette: {
     black: {
@@ -91,13 +86,7 @@ const Main = () => {
 };
 
 function App() {
-<<<<<<< HEAD
-  const [search, setSearch] = useState()
-  const [details, setDetails] = useState()
-  console.log(search)
-=======
   // const [search, setSearch] = useState("bandra");
->>>>>>> dae1dec735f7920356d90dc10f363cfeb675b36f
   // <Route exact path="/List/:search" element={<PropertyList />} />
   return (
     <Router>
