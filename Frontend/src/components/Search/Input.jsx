@@ -7,7 +7,7 @@ const FixedTags = ({setSearch}) => {
   const fixedOptions = [
     // Location[6]
 ];
-  const [value, setValue] = React.useState([Location[0]]);
+  const [value, setValue] = React.useState();
 
   return (
     <Autocomplete
@@ -15,20 +15,22 @@ const FixedTags = ({setSearch}) => {
       id="fixed-tags-demo"
       value={value}
       onChange={(event, newValue) => {
-        setValue([
+        const newValues = [
           ...fixedOptions,
           ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),
-        ]);
-        console.log(...newValue)
-        // const newValue = JSON.stringify(newValue)
-        var sss =""
-        for(var i = 0;i<newValue.length;i++){
-          sss += newValue[i].station
+        ];
+      
+        if (JSON.stringify(newValues) !== JSON.stringify(value)) {
+          setValue(newValues);
+      
+          var sss = "";
+          for (var i = 0; i < newValues.length; i++) {
+            sss += newValues[i].station;
+          }
+          setSearch(sss);
         }
-        console.log(sss)
-        setSearch(sss)
-        // newValue.stringify
       }}
+      
       options={Location}
       getOptionLabel={(option) => option.station}
       renderTags={(tagValue, getTagProps) =>
