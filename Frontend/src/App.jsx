@@ -23,8 +23,10 @@ import {
   Link,
   useNavigate as Navigate,
 } from "react-router-dom";
+import axios from 'axios'
 import Adhar from "./components/Aadhar";
 import Upload from "./Pages/UploadProperty"
+import { useEffect } from "react";
 const theme = createTheme({
   palette: {
     black: {
@@ -85,9 +87,22 @@ const Main = ({setSearch}) => {
 }
 
 function App() {
-  const [search, setSearch] = useState("bandra")
+  const [search, setSearch] = useState()
+  const [details, setDetails] = useState()
+  console.log(search)
   // <Route exact path="/List/:search" element={<PropertyList />} />
+  useEffect(()=>{
+   const findDetails=async ()=>{
+    try {
+      const response=await axios.post('/api/property',search)
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
 
+  }
+  findDetails()
+  },[search])
   return (
     <Router>
       {/* <YourComponent/> */}

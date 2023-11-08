@@ -17,27 +17,26 @@ import Divider from "@mui/material/Divider";
 import Panel from "../components/360_view/Panel";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-//--
 const theme = createTheme({
   palette: {
     black: {
-      //main color
       main: "#EC0B43",
       light: "#040F0F",
-      //hover karne par
       dark: "#040F0F",
       contrastText: "#040F0F",
     },
   },
 });
+
 const PropertyDetails = () => {
   const [propertyDetail, setPropertyDetail] = useState({});
-  const [InputTime, setInputTime] = useState(null);
-  const [InputDate, setInputDate] = useState(null);
+  const [InputTime, setInputTime] = useState(""); // Provide a default value or handle null values
+  const [InputDate, setInputDate] = useState(""); // Provide a default value or handle null values
   const [Submit, setSubmit] = useState(false);
   const [EventDetails, setEventDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [img, setImg] = useState();
+  const [img, setImg] = useState("");
+
   useEffect(() => {
     const property = async () => {
       try {
@@ -46,7 +45,7 @@ const PropertyDetails = () => {
         const response = await axios.get(`/api/property/${id[4]}`);
         setPropertyDetail(response.data);
         console.log(response.data);
-        setImg(propertyDetail.images[0].fileName);
+        setImg(response.data.images[0].fileName); // Fix this line to use the correct data
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -55,38 +54,47 @@ const PropertyDetails = () => {
     };
     property();
   }, []);
-  useEffect(() => {}, []);
-
-  const result = EventDetails.find((val) => {
-    return val.Date === InputDate && val.Time === InputTime;
-  });
-  if (Submit === true && !result) {
-    //value constant ko pehle put kar, then jaake put the value, bc if you do it(meaning direct daala into setEventDetails) it will not cause error in setEventDetails
-    const value = {
-      Date: InputDate,
-      Time: InputTime,
+  useEffect(() => {
+    // Include dependencies in the array, e.g., [InputTime]
+    const updateCalendar = async () => {
+      try {
+        const calendar = {
+          endDate: InputDate + InputTime,
+          propertyId: propertyDetail._id,
+          event: propertyDetail.buildingName,
+        };
+        console.log(calendar);
+        const response = await axios.post("/api/calendar", calendar);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
-    setEventDetails([...EventDetails, value]);
+    updateCalendar();
+  }, [InputTime, InputDate]);
 
-    // console.log(
-    //   EventDetails[0].Date,
-    //   typeof EventDetails[0].Date,
-    //   EventDetails[0].Time,
-    //   typeof EventDetails[0].Time
-    // );
-    getDet(EventDetails);
+  const handleSubmission = () => {
+    const result = EventDetails.find((val) => val.Date === InputDate && val.Time === InputTime);
+    if (Submit && !result) {
+      setEventDetails((prevEventDetails) => {
+        const value = {
+          Date: InputDate,
+          Time: InputTime,
+        };
+        return [...prevEventDetails, value];
+      });
 
-    setSubmit(false);
+      getDet(EventDetails);
+
+      setSubmit(false);
+    }
+  };
+
+  console.log("Event Details", EventDetails);
+
+  if (isLoading) {
+    return <Loading />;
   }
-  console.log(`Event Details`, ...EventDetails);
-
-  // if (isLoading) {
-  //   return (
-  //     <div>
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
 
   return (
     <ThemeProvider theme={theme}>
@@ -321,7 +329,6 @@ const PropertyDetails = () => {
   );
 };
 
-//--
 const PropertySpecific = () => {
   return (
     <div>
@@ -331,4 +338,5 @@ const PropertySpecific = () => {
     </div>
   );
 };
+
 export default PropertySpecific;

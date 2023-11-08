@@ -33,7 +33,7 @@ function BigCalendar({ EventDetails }) {
     const getDates = async () => {
       try {
         const response = await axios.get('/api/calendar');
-        console.log(response.data[0])
+        console.log(response.data)
         setEvents(response.data[0]); // Assuming that the data returned is an array
       } catch (error) {
         console.log(error);

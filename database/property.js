@@ -146,9 +146,9 @@ Router.get('/api/property', async (req, res) => {
     try {
         // Build the search query based on the filter options
         const searchQuery = {};
-
         if (search) {
-            searchQuery['address.city'] = { $regex: new RegExp(search, 'i') };
+            console.log(search.split('('))
+            searchQuery['address.city'] = { $regex: new RegExp(search.split('(')[0], 'i') };
         }
 
         if (availableFor) {
