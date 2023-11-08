@@ -45,7 +45,7 @@ const propertySchema = new mongoose.Schema({
         required: true,
     },
     ageOfConstruction: {
-        type: String,
+        type: Number,
         required: true,
     },
     waterAvailability: {
@@ -64,11 +64,11 @@ const propertySchema = new mongoose.Schema({
         type:String
     },
     noOfBedroom:{
-        type:String,
+        type:Number,
         required:true,
     },
     noOfBathroom:{
-        type:String,
+        type:Number,
         required:true,
     },
     floor:{
@@ -91,7 +91,7 @@ const propertySchema = new mongoose.Schema({
         required:true
     },
     noOfBalconies:{
-        type:String
+        type:Number
     },
     address: {
         street: {
