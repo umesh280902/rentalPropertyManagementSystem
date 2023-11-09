@@ -308,7 +308,7 @@ const PropertyDetails = () => {
               }}
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d666.6998670572094!2d72.82017289697582!3d19.045098152412667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9458a4665a7%3A0x1d88e9dbe132fbb8!2sSeema%20Apartments%2C%20Bullock%20Rd%2C%20Mount%20Mary%2C%20Bandra%20West%2C%20Mumbai%2C%20Maharashtra%20400050!5e0!3m2!1sen!2sin!4v1698038214965!5m2!1sen!2sin"
+                src={propertyDetail.Link}
                 width="85%"
                 height="450"
                 style={{ border: "0" }}

@@ -79,7 +79,7 @@ const navBar = () => {
           <div
             style={{ padding: "1.23rem", color: "white", fontSize: "1.25rem" }}
           >
-            <a href="url">POST YOUR PROPERTY </a>
+            <a href="/upload">POST YOUR PROPERTY </a>
             {/* <Link
               style={{
                 textDecoration: "none",

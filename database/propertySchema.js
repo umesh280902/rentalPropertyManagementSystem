@@ -113,6 +113,9 @@ const propertySchema = new mongoose.Schema({
             type: String,
         },
     },
+    Link:{
+        type:String
+    },
     likes:[
         {
         name:{
