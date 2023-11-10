@@ -1,6 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
+import FiltersContext from "../context/filters";
 
 function valuetext(value) {
   return `${value}°C`;
@@ -9,8 +10,11 @@ function valuetext(value) {
 export default function RangeSlider() {
   const [value, setValue] = React.useState([0, 800000]);
   const [step, setStep] = React.useState(50000);
+  const {setRentalValue}=React.useContext(FiltersContext)
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    const newww = newValue
+    setRentalValue([newww[0],newww[1]])
     if (value[0] > 100000 && value[1] > 100000) {
 
       setStep(100000);
@@ -35,7 +39,7 @@ export default function RangeSlider() {
           marks
           step={step}
           onChange={handleChange}
-        //   valueLabelDisplay="on"
+          valueLabelDisplay="on"
           getAriaValueText={valuetext}
         />
         <div style={{display : "flex", textAlign : "center"}}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import NavBar from "../components/Header/Navbar";
@@ -8,46 +8,55 @@ import Divider from "@mui/material/Divider";
 import Accordion from "../MUI_components/Accordion";
 import MapIcon from "@mui/icons-material/Map";
 import StreetviewIcon from '@mui/icons-material/Streetview';
-import { Slider } from "@mui/material";
+import  Slider from "../MUI_components/Slider";
+import FiltersContext from "../context/filters";
 
 const PropertyList = () => {
-  const location = useLocation();
-  const searchValue = location.state || ""; // Update to use the entire state object
-
+   const {
+    searchValue,
+    setSearchValue,  
+    rentalValue,
+    setRentalValue,
+    noOfBedrooms,
+    setNoOfBedrooms,
+    ageOfConstruction,
+    setAgeOfConstruction,
+    availableFor,
+    setAvailableFor,
+    furnishing,
+    setfurnishing}=useContext(FiltersContext)
   const [details, setDetails] = useState([]);
-  const [activeFilters, setActiveFilters] = useState({});
-
-  const handleFiltersChange = (newFilters) => {
-    setActiveFilters(newFilters);
+  const queryParams = {
+    search: searchValue, // Use the entire state object as the search value
+    rentalValue: searchValue ? null : (rentalValue && rentalValue[1] ? rentalValue[1] : null),
+    ageOfConstruction: searchValue ? null : ageOfConstruction,
+    furnishing: searchValue ? null : furnishing,
+    availableFor: searchValue ? null : availableFor,
+    noOfBedrooms: searchValue ? null : noOfBedrooms,
   };
-
+  console.log(rentalValue)
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const queryParams = {
-          search: searchValue, // Use the entire state object as the search value
-          rentalValue: activeFilters.rentalValue,
-          ageOfConstruction: activeFilters.ageOfConstruction,
-          furnishing: activeFilters.furnishing,
-          availableFor: activeFilters.availableFor,
-          noOfBedrooms: activeFilters.noOfBedrooms,
-        };
-
         const response = await axios.get("/api/property", {
           params: queryParams,
         });
-
-        setDetails(response.data[0]); // Update to set the entire response data
+  
+        console.log(response.data[0]);
+        setDetails(response.data[0]);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
-  }, [searchValue, activeFilters]);
+  }, [rentalValue, ageOfConstruction, furnishing, availableFor, noOfBedrooms,searchValue]);
+  
 
   return (
     <div>
+      <div>
+      </div>
       <NavBar />
       <br />
       <div style={{ display: "flex", justifyContent: "flex-end", gap: "3rem", paddingLeft: "10rem" }}>
@@ -58,8 +67,7 @@ const PropertyList = () => {
             head3="Furnishing"
             head4="Available for"
             head5="Number of Bedrooms"
-            Slider={Slider} // Include the Slider component here
-            onFiltersChange={handleFiltersChange}
+            Slider={Slider} 
           />
         </div>
         <div style={{}}>

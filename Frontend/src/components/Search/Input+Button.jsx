@@ -3,7 +3,8 @@ import Input from "./Input";
 import Button from "@mui/material/Button";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-
+import FiltersContext from "../../context/filters";
+import { useContext } from "react";
 const theme = createTheme({
   palette: {
     black: {
@@ -16,17 +17,16 @@ const theme = createTheme({
 });
 
 const Inputbox = () => {
-  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    navigate("/list", { state: search  });
+    navigate("/list");
   };
 
   return (
     <ThemeProvider theme={theme}>
       <div style={{ display: "flex", justifyContent: "center", flexDirection: "row" }}>
-        <Input setSearch={setSearch} />
+        <Input />
         <Button
           onClick={handleSearch}
           sx={{

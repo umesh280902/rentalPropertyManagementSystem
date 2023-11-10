@@ -110,7 +110,20 @@ const navBar = () => {
               <a href="url">PROPERTY VISIT </a>
             </Link>
           </div>
-          
+          <div
+            style={{ padding: "1.23rem", color: "white", fontSize: "1.25rem" }}
+          >
+            
+            <Link
+              style={{
+                
+              }}
+              to="/list"
+            >
+              
+              <a href="url">PROPERTIES </a>
+            </Link>
+          </div>
         </div>
         <div></div>
       </div>

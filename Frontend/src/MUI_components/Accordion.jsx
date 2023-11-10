@@ -5,27 +5,42 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CheckBox from "./CheckBox";
+import filtersContext from "../context/filters";
+import Slider from "./Slider";
+import { useContext } from "react";
+import FiltersContext from "../context/filters";
+export default function BasicAccordion() {
+  const {
+    setRentalValue,
+    setNoOfBedrooms,
+    setAgeOfConstruction,
+    setAvailableFor,
+    setfurnishing,
+  } = useContext(FiltersContext);
 
-export default function BasicAccordion(props) {
-  const[activeFilters,setActiveFilters]=useState({})
-  const sendDataToProperty = (filterName, value) => {
-    const updatedFilters = { ...activeFilters, [filterName]: value };
-    setActiveFilters(updatedFilters);
-    props.onFiltersChange(updatedFilters);
-  };
+  const handleFilterCLick=(value,setter,resetters)=>{
+    setter(value)
+    resetters.forEach(resetter=>resetter(null))
+  }
 
   return (
     <div>
       <Accordion>
-      <AccordionSummary
+        <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>{props.head1}</Typography>
+          <Typography>Budget</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {props.Slider ? <props.Slider onChange={(value)=>sendDataToProperty('rentalValue',value)} /> : ""}
+          {Slider ? (
+            <Slider
+              onChange={(value) => handleFilterCLick(value,setRentalValue,[setAgeOfConstruction,setAvailableFor,setNoOfBedrooms,setfurnishing])}
+            />
+          ) : (
+            ""
+          )}
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -34,7 +49,7 @@ export default function BasicAccordion(props) {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>{props.head2}</Typography>
+          <Typography>Age of Property</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <CheckBox
@@ -43,7 +58,7 @@ export default function BasicAccordion(props) {
             val3="11"
             val4="4"
             val5="5"
-            onClick={(value)=>sendDataToProperty('ageOfConstruction',value)}
+            onClick={(value) => handleFilterCLick(value,setAgeOfConstruction,[setAvailableFor,setNoOfBedrooms,setfurnishing,setRentalValue])}
           />
         </AccordionDetails>
       </Accordion>
@@ -53,14 +68,14 @@ export default function BasicAccordion(props) {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>{props.head3}</Typography>
+          <Typography>Furnishing</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <CheckBox
             val1="unfurnished"
             val2="furnished"
             val3="semi-furnished"
-            onClick={(value)=>sendDataToProperty('furnishing',value)}
+            onClick={(value) => handleFilterCLick(value,setfurnishing,[setRentalValue,setAgeOfConstruction,setAvailableFor,setNoOfBedrooms])}
           />
         </AccordionDetails>
       </Accordion>
@@ -70,14 +85,14 @@ export default function BasicAccordion(props) {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>{props.head4}</Typography>
+          <Typography>Available For</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <CheckBox
             val1="Bachelor"
             val2="Family"
             val3="Single Women"
-            onClick={(value)=>sendDataToProperty('availableFor',value)}
+            onClick={(value) => handleFilterCLick(value,setAvailableFor,[setAgeOfConstruction,setRentalValue,setNoOfBedrooms,setfurnishing])}
           />
         </AccordionDetails>
       </Accordion>
@@ -87,17 +102,18 @@ export default function BasicAccordion(props) {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>{props.head5}</Typography>
+          <Typography>Bedroom</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <CheckBox
             val1="1"
             val2="2"
             val3="3"
-            onClick={(value)=>sendDataToProperty('noOfBedrooms',value)}
+            onClick={(value) => handleFilterCLick(value,setNoOfBedrooms,[setAgeOfConstruction,setAvailableFor,setAvailableFor,setfurnishing])}
           />
         </AccordionDetails>
       </Accordion>
     </div>
   );
 }
+

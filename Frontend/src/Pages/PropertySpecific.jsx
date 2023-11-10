@@ -137,10 +137,7 @@ const PropertyDetails = () => {
                 <br />
                 in{"   "}
                 {propertyDetail.buildingName} {"   "}
-                {propertyDetail.address.street} {"   "}
-                {propertyDetail.address.area} {"   "}
-                {propertyDetail.address.city} {"   "}
-                {propertyDetail.address.state}
+                {propertyDetail.address} 
               </div>
               <div
                 className="List of Buttons"
@@ -308,7 +305,7 @@ const PropertyDetails = () => {
               }}
             >
               <iframe
-                src={propertyDetail.Link}
+                src={propertyDetail.Link?propertyDetail.Link:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.941589046335!2d72.82919524161468!3d19.066305604957062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c913b48697ed%3A0x267fd8fe3e648ab8!2sCelestial%20Tower%2C%2015th%20Rd%2C%20Khar%20West%2C%20Mumbai%2C%20Maharashtra%20400052!5e0!3m2!1sen!2sin!4v1699502022952!5m2!1sen!2sin"}
                 width="85%"
                 height="450"
                 style={{ border: "0" }}

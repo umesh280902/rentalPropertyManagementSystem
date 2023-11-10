@@ -2,8 +2,9 @@ import * as React from 'react';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-
-const FixedTags = ({setSearch}) => {
+import FiltersContext from '../../context/filters';
+const FixedTags = () => {
+  const {setSearchValue}=React.useContext(FiltersContext)
   const fixedOptions = [
     // Location[6]
 ];
@@ -27,7 +28,7 @@ const FixedTags = ({setSearch}) => {
           for (var i = 0; i < newValues.length; i++) {
             sss += newValues[i].station;
           }
-          setSearch(sss);
+          setSearchValue(sss);
         }
       }}
       

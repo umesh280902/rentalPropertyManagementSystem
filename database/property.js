@@ -159,14 +159,14 @@ Router.get('/api/property', async (req, res) => {
             searchQuery['furnishing'] = furnishing;
         }
         if (rentalValue) {
-            searchQuery['rentalValue'] = furnishing;
+            searchQuery['rentalValue'] = {$lt:parseInt(rentalValue)};
         }
         // Extract the numbers from ageOfProperty using regex
         if (ageOfConstruction) {
             const match = ageOfConstruction.match(/\d+/);
             const age = match ? parseInt(match[0], 10) : null;
             if (age !== null) {
-                searchQuery['ageOfProperty'] = age;
+               searchQuery['ageOfConstruction'] = age;
             }
         }
 
@@ -182,7 +182,7 @@ Router.get('/api/property', async (req, res) => {
         // Define an array of sort criteria
         let sortCriteria;
 
-        if (sortField && sortOrder) {
+        if (sortField || sortOrder) {
             if (sortField === 'rentalValue') {
                 sortCriteria = { rentalValue: sortOrder === 'asc' ? 1 : -1 };
             }
@@ -204,7 +204,7 @@ Router.get('/api/property', async (req, res) => {
         const Properties = await Property.find(searchQuery).sort(sortCriteria);
 
         const updatedProperties = Properties.map((property) => {
-            const combinedAddress = `${property.address.area} ${property.address.street} ${property.address.city} ${property.address.state} ${property.address.postalCode} ${property.address.country}`;
+            const combinedAddress = property.address.area+" "+property.address.street+" "+property.address.city+" "+property.address.state+" "+property.address.postalCode+" "+property.address.country
             const imagePath = 'http://localhost:8800/';
             const removedPath = property.images[0].fileName.replace('public\\', '');
             const updatedImages = imagePath + removedPath;
@@ -215,7 +215,7 @@ Router.get('/api/property', async (req, res) => {
                 images: updatedImages,
             };
         });
-
+        //console.log(updatedProperties)
         res.send([updatedProperties]);
     } catch (error) {
         console.log(error);
