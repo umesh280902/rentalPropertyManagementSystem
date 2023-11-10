@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { User } = require('./database');
 
-const propertySecretKey = 'propertyFilesNotToBeShared';
+const propertySecretKey = process.env.propertySecretKey;
 
 // Define a storage strategy for multer to handle file uploads
 const storage = multer.diskStorage({

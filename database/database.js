@@ -2,7 +2,8 @@ const express = require('express');
 const Router = express.Router();
 const mongoose = require('mongoose');
 const Property=require('./propertySchema')
-mongoose.connect('mongodb+srv://umeshkumawat2809:pKk1WLgcAw8qtEmD@cluster0.rbleqcb.mongodb.net/RentalPropertyManagementSystem?retryWrites=true&w=majority', {
+const DBURL=process.env.DBURL
+mongoose.connect(DBURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

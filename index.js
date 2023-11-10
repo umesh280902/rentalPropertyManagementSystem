@@ -1,5 +1,9 @@
+/* The code you provided is a server-side JavaScript code using the Express.js framework. It sets up a
+server that listens on a specified port (either the value of the `PORT` environment variable or
+8800) and handles HTTP requests. */
 const express = require('express');
 const cookieParser = require('cookie-parser');
+require('dotenv').config()
 const app = express();
 const http = require('http');
 const path = require('path');
@@ -9,8 +13,9 @@ const { Message } = require('./database/database');
 const io = new Server(server);
 const port = process.env.PORT || 8800;
 const cors = require('cors');
+const FRONTENDURL=process.env.FRONTENDURL
 const corsOptions = {
-  origin: 'http://localhost:5173', // Change this to the origin of your frontend application
+  origin: FRONTENDURL, // Change this to the origin of your frontend application
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Pass cookies, if any
   optionsSuccessStatus: 204,
@@ -21,10 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-
-
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

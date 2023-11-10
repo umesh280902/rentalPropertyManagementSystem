@@ -12,12 +12,14 @@ function formatTime(timestamp) {
   const minutes = date.getMinutes().toString().padStart(2, '0');
   return `${hours}:${minutes}`;
 }
-
+const EMAIL=process.env.EMAIL
+const PASSWORD=process.env.PASSWORD
+const RENTALTOKEN=process.env.RENTALTOKEN
 let mailTransporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'umeshkumawat2809@gmail.com',
-    pass: 'zuvr azvd komm nklf',
+    user: EMAIL,
+    pass: PASSWORD
   },
 });
 
@@ -39,7 +41,7 @@ async function authenticate(req, res, next) {
     return res.send('Please log in again.');
   }
   try {
-    const emailFromToken = jwt.verify(token, 'rentalpropertymanagement');
+    const emailFromToken = jwt.verify(token, RENTALTOKEN);
     req.email = emailFromToken.email; // Store email in the req object for later use
     next();
   } catch (error) {
@@ -203,7 +205,7 @@ Router.post('/api/user/login', async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, existingUser.password);
         console.log(passwordMatch);
         if (passwordMatch) {
-          const token = jwt.sign({ email: existingUser.email }, 'rentalpropertymanagement');
+          const token = jwt.sign({ email: existingUser.email }, RENTALTOKEN);
           console.log(token);
           res.cookie('token', token, { httpOnly: true, expires: new Date(Date.now() + 60 * 50000) });
           res.send('authenticated')
@@ -236,7 +238,7 @@ Router.post('/api/user/otp', async (req, res) => {
         phonenumber: details.phonenumber,
       });
       const saveData = await newUser.save();
-      const token = jwt.sign({ email: details.email }, 'rentalpropertymanagement');
+      const token = jwt.sign({ email: details.email }, RENTALTOKEN);
       console.log(token);
       res.cookie('token', token, { httpOnly: true, expires: new Date(Date.now() + 60 * 50000) });
       res.send('authenticated')
